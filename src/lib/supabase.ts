@@ -61,6 +61,9 @@ export type PatientFinancial = {
   amount_due_to_doctor: number
   notes: string | null
 }
+
+// Database types for the dental practice
+export type Patient = {
   id: string
   created_at: string
   name: string

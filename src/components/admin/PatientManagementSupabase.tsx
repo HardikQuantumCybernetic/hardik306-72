@@ -31,6 +31,7 @@ import PatientServicesManager from "./PatientServicesManager";
 import PatientFinancialManager from "./PatientFinancialManager";
 import { generatePatientPDF } from "@/utils/pdfGenerator";
 import { usePatientServices, usePatientFinancials } from "@/hooks/useSupabaseExtended";
+import EnhancedPatientPDFGenerator from "./EnhancedPatientPDFGenerator";
 
 const PatientManagementSupabase = () => {
   const { toast } = useToast();
@@ -134,24 +135,12 @@ const PatientManagementSupabase = () => {
 
   const handleDownloadPDF = async (patient: Patient) => {
     try {
-      // Fetch additional data for PDF
-      const services = await import('@/hooks/useSupabaseExtended').then(m => {
-        const { usePatientServices } = m;
-        // We need to call this hook differently since we're in a regular function
-        // For now, we'll generate PDF without services data
-        return [];
-      });
-      
-      const financials = await import('@/hooks/useSupabaseExtended').then(m => {
-        const { usePatientFinancials } = m;
-        // Similar issue here - we'll handle this in a better way
-        return null;
-      });
-
+      // Use a simpler approach - just generate PDF with patient data for now
+      // In a real implementation, you'd fetch the related data properly
       generatePatientPDF({
         patient,
-        services: [],
-        financials: null
+        services: [], // TODO: Fetch actual services when needed
+        financials: null // TODO: Fetch actual financials when needed
       });
 
       toast({
@@ -423,15 +412,7 @@ const PatientManagementSupabase = () => {
                           >
                             <Edit className="w-4 h-4" />
                           </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleDownloadPDF(patient)}
-                            className="text-success hover:bg-success/10"
-                            title="Download PDF"
-                          >
-                            <Download className="w-4 h-4" />
-                          </Button>
+                          <EnhancedPatientPDFGenerator patient={patient} />
                           <Button
                             variant="ghost"
                             size="sm"
@@ -540,14 +521,7 @@ const PatientManagementSupabase = () => {
                 
                 <TabsContent value="actions" className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Button
-                      variant="dental"
-                      onClick={() => handleDownloadPDF(selectedPatient)}
-                      className="w-full"
-                    >
-                      <Download className="w-4 h-4 mr-2" />
-                      Download PDF Report
-                    </Button>
+                    <EnhancedPatientPDFGenerator patient={selectedPatient} />
                     <Button
                       variant="dental-outline"
                       onClick={() => {
