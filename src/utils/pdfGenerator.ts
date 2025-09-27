@@ -143,12 +143,13 @@ export const generatePatientPDF = (data: PatientPDFData) => {
       }
       
       const serviceName = service.service_name || 'Unknown Service'
-      const statusColor = service.status === 'completed' ? [34, 139, 34] : 
+      const statusColor: [number, number, number] = service.status === 'completed' ? [34, 139, 34] : 
                          service.status === 'in_progress' ? [255, 165, 0] : [128, 128, 128]
       
       pdf.text(serviceName, 20, yPos)
       
-      pdf.setTextColor(...statusColor)
+      const [r, g, b] = statusColor
+      pdf.setTextColor(r, g, b)
       pdf.text(service.status.toUpperCase(), 80, yPos)
       pdf.setTextColor(0, 0, 0)
       

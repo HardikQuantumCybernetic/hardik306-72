@@ -19,15 +19,22 @@ const AppointmentScheduling = ({ doctors = [], onClose }: AppointmentSchedulingP
   const { toast } = useToast();
   const { addAppointment } = useAppointments();
   const { patients } = usePatients();
-  
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    patient_id: string;
+    appointment_date: string;
+    appointment_time: string;
+    service_type: string;
+    doctor: string;
+    notes: string;
+    status: 'scheduled' | 'confirmed';
+  }>({
     patient_id: '',
     appointment_date: '',
     appointment_time: '',
     service_type: '',
     doctor: '',
     notes: '',
-    status: 'scheduled' as const
+    status: 'scheduled'
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);

@@ -123,7 +123,7 @@ export const patientService = {
     return data as Patient[]
   },
 
-  async create(patient: Omit<Patient, 'id' | 'created_at'>) {
+  async create(patient: Omit<Patient, 'id' | 'created_at' | 'patient_id'>) {
     const { data, error } = await supabase
       .from('patients')
       .insert([patient])

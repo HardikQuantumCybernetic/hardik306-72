@@ -22,12 +22,18 @@ const PatientServicesManager = ({ patientId }: PatientServicesManagerProps) => {
   const { toast } = useToast();
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editingService, setEditingService] = useState<PatientService | null>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    service_id: string;
+    assigned_cost: number;
+    notes: string;
+    scheduled_date: string;
+    status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
+  }>({
     service_id: "",
     assigned_cost: 0,
     notes: "",
     scheduled_date: "",
-    status: "pending" as const
+    status: "pending"
   });
 
   const getStatusIcon = (status: string) => {
@@ -57,6 +63,7 @@ const PatientServicesManager = ({ patientId }: PatientServicesManagerProps) => {
         assigned_cost: formData.assigned_cost,
         notes: formData.notes,
         scheduled_date: formData.scheduled_date || null,
+        completed_date: formData.status === 'completed' ? new Date().toISOString().split('T')[0] : null,
         status: formData.status
       };
 

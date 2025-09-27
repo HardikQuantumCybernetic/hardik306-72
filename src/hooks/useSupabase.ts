@@ -27,7 +27,7 @@ export const usePatients = () => {
     }
   }
 
-  const addPatient = async (patient: Omit<Patient, 'id' | 'created_at'>) => {
+  const addPatient = async (patient: Omit<Patient, 'id' | 'created_at' | 'patient_id'>) => {
     try {
       const newPatient = await patientService.create(patient)
       setPatients(prev => [newPatient, ...prev])
