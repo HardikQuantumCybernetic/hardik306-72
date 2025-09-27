@@ -10,7 +10,7 @@ import { Calendar, Clock, User, Plus, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAppointments, usePatients } from "@/hooks/useSupabase";
 
-const AppointmentScheduling = () => {
+const AppointmentScheduling = ({ doctors = [], onClose }: AppointmentSchedulingProps) => {
   const { toast } = useToast();
   const { addAppointment } = useAppointments();
   const { patients } = usePatients();

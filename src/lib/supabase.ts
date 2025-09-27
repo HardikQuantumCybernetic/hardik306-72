@@ -2,8 +2,65 @@ import { supabase } from '@/integrations/supabase/client'
 
 export { supabase }
 
-// Database types for the dental practice
-export type Patient = {
+// Additional types for new tables
+export type Doctor = {
+  id: string
+  created_at: string
+  name: string
+  specialty: string | null
+  email: string | null
+  phone: string | null
+  is_active: boolean
+}
+
+export type Feedback = {
+  id: string
+  created_at: string
+  updated_at: string
+  patient_name: string
+  patient_email: string
+  rating: number
+  message: string
+  category: string
+  status: 'new' | 'reviewed'
+  patient_id: string | null
+}
+
+export type Service = {
+  id: string
+  created_at: string
+  name: string
+  description: string | null
+  default_cost: number
+  category: string
+}
+
+export type PatientService = {
+  id: string
+  created_at: string
+  updated_at: string
+  patient_id: string
+  service_id: string
+  status: 'pending' | 'in_progress' | 'completed' | 'cancelled'
+  assigned_cost: number
+  notes: string | null
+  scheduled_date: string | null
+  completed_date: string | null
+  service_name?: string
+  service_description?: string
+}
+
+export type PatientFinancial = {
+  id: string
+  created_at: string
+  updated_at: string
+  patient_id: string
+  total_treatment_cost: number
+  amount_paid_by_patient: number
+  remaining_from_patient: number
+  amount_due_to_doctor: number
+  notes: string | null
+}
   id: string
   created_at: string
   name: string
@@ -14,6 +71,7 @@ export type Patient = {
   medical_history: string
   insurance_info: string
   status: 'active' | 'inactive'
+  patient_id: string | null
 }
 
 export type Appointment = {
@@ -176,5 +234,170 @@ export const appointmentService = {
       .eq('id', id)
     
     if (error) throw error
+  }
+}
+
+// Feedback service
+export const feedbackService = {
+  async getAll() {
+    const { data, error } = await supabase
+      .from('feedback')
+      .select('*')
+      .order('created_at', { ascending: false })
+    
+    if (error) throw error
+    return data as Feedback[]
+  },
+
+  async create(feedback: Omit<Feedback, 'id' | 'created_at' | 'updated_at'>) {
+    const { data, error } = await supabase
+      .from('feedback')
+      .insert([feedback])
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data as Feedback
+  },
+
+  async update(id: string, updates: Partial<Feedback>) {
+    const { data, error } = await supabase
+      .from('feedback')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data as Feedback
+  }
+}
+
+// Doctor service
+export const doctorService = {
+  async getAll() {
+    const { data, error } = await supabase
+      .from('doctors')
+      .select('*')
+      .eq('is_active', true)
+      .order('name', { ascending: true })
+    
+    if (error) throw error
+    return data as Doctor[]
+  }
+}
+
+// Service management
+export const serviceService = {
+  async getAll() {
+    const { data, error } = await supabase
+      .from('services')
+      .select('*')
+      .order('name', { ascending: true })
+    
+    if (error) throw error
+    return data as Service[]
+  }
+}
+
+// Patient services (todo list)
+export const patientServiceService = {
+  async getByPatientId(patientId: string) {
+    const { data, error } = await supabase
+      .from('patient_services')
+      .select(`
+        *,
+        service:services(name, description)
+      `)
+      .eq('patient_id', patientId)
+      .order('created_at', { ascending: false })
+    
+    if (error) throw error
+    
+    return data.map(item => ({
+      ...item,
+      service_name: item.service?.name,
+      service_description: item.service?.description
+    })) as PatientService[]
+  },
+
+  async create(patientService: Omit<PatientService, 'id' | 'created_at' | 'updated_at'>) {
+    const { data, error } = await supabase
+      .from('patient_services')
+      .insert([patientService])
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data as PatientService
+  },
+
+  async update(id: string, updates: Partial<PatientService>) {
+    const { data, error } = await supabase
+      .from('patient_services')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data as PatientService
+  },
+
+  async delete(id: string) {
+    const { error } = await supabase
+      .from('patient_services')
+      .delete()
+      .eq('id', id)
+    
+    if (error) throw error
+  }
+}
+
+// Patient financials service
+export const patientFinancialService = {
+  async getByPatientId(patientId: string) {
+    const { data, error } = await supabase
+      .from('patient_financials')
+      .select('*')
+      .eq('patient_id', patientId)
+      .single()
+    
+    if (error && error.code !== 'PGRST116') throw error
+    return data as PatientFinancial | null
+  },
+
+  async create(financials: Omit<PatientFinancial, 'id' | 'created_at' | 'updated_at'>) {
+    const { data, error } = await supabase
+      .from('patient_financials')
+      .insert([financials])
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data as PatientFinancial
+  },
+
+  async update(patientId: string, updates: Partial<PatientFinancial>) {
+    const { data, error } = await supabase
+      .from('patient_financials')
+      .update(updates)
+      .eq('patient_id', patientId)
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data as PatientFinancial
+  },
+
+  async upsert(financials: Omit<PatientFinancial, 'id' | 'created_at' | 'updated_at'>) {
+    const { data, error } = await supabase
+      .from('patient_financials')
+      .upsert([financials], { onConflict: 'patient_id' })
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data as PatientFinancial
   }
 }

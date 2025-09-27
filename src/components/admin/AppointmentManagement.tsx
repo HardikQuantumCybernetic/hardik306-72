@@ -7,10 +7,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Calendar, Clock, User, Phone, MapPin, CheckCircle, XCircle, AlertCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAppointments } from "@/hooks/useSupabase";
+import { useDoctors } from "@/hooks/useSupabaseExtended";
 import AppointmentScheduling from "./AppointmentScheduling";
 const AppointmentManagement = () => {
   const { toast } = useToast();
   const { appointments, loading, updateAppointment } = useAppointments();
+  const { doctors } = useDoctors();
   const [open, setOpen] = useState(false);
   const handleStatusChange = async (appointmentId: string, newStatus: "scheduled" | "confirmed" | "completed" | "cancelled" | "no-show") => {
     try {
@@ -80,7 +82,7 @@ const AppointmentManagement = () => {
               <DialogTitle>Schedule New Appointment</DialogTitle>
               <DialogDescription>Fill in the details to create a new appointment.</DialogDescription>
             </DialogHeader>
-            <AppointmentScheduling />
+            <AppointmentScheduling doctors={doctors} onClose={() => setOpen(false)} />
           </DialogContent>
         </Dialog>
       </div>
