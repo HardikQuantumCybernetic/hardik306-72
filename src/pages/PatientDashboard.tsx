@@ -1,31 +1,29 @@
-import { useUser } from "@clerk/clerk-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PatientDashboard from "@/components/auth/PatientDashboard";
 
 const PatientDashboardPage = () => {
-  const { isSignedIn, user } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isSignedIn) {
-      navigate("/login");
-    }
-  }, [isSignedIn, navigate]);
+    // For now, allow access without authentication
+    // This can be updated when proper auth is implemented
+  }, [navigate]);
 
   const handleLogout = () => {
     navigate("/");
   };
 
-  if (!isSignedIn || !user) {
-    return (
-      <div className="min-h-screen bg-background font-inter flex items-center justify-center">
-        <div className="text-dental-blue">Loading...</div>
-      </div>
-    );
-  }
+  // Mock user for now - this should be replaced with actual auth
+  const mockUser = {
+    fullName: "Demo Patient",
+    firstName: "Demo",
+    lastName: "Patient",
+    emailAddresses: [{ emailAddress: "demo@example.com" }],
+    phoneNumbers: [{ phoneNumber: "(555) 123-4567" }]
+  };
 
-  return <PatientDashboard user={user} onLogout={handleLogout} />;
+  return <PatientDashboard user={mockUser} onLogout={handleLogout} />;
 };
 
 export default PatientDashboardPage;
