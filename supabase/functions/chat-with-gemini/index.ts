@@ -69,7 +69,7 @@ serve(async (req) => {
     
     return new Response(
       JSON.stringify({ 
-        error: error.message,
+        error: error instanceof Error ? error.message : 'Unknown error occurred',
         response: "I'm experiencing technical difficulties. Please call our office at (808) 095-0921 for assistance."
       }),
       {
