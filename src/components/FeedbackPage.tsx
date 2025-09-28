@@ -10,6 +10,7 @@ import { Star, Phone, Mail, CheckCircle, MessageSquare, Users, Heart } from 'luc
 import { toast } from 'sonner';
 import DentalNavbar from './DentalNavbar';
 import DentalFooter from './DentalFooter';
+import QuickInfoCard from '@/components/common/QuickInfoCard';
 
 interface FeedbackData {
   overallRating: string;
@@ -111,6 +112,14 @@ const FeedbackPage: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const feedbackInfoItems = [
+    { text: "Your name and email are required for follow-up", icon: "info" as const },
+    { text: "All feedback is confidential and secure", icon: "check" as const },
+    { text: "We respond to feedback within 24-48 hours", icon: "clock" as const },
+    { text: "Anonymous feedback is also welcome", icon: "users" as const },
+    { text: "Help us improve our dental care services", icon: "alert" as const }
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -239,6 +248,14 @@ const FeedbackPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Quick Info Card */}
+          <div className="mb-8">
+            <QuickInfoCard 
+              title="Feedback Guidelines" 
+              items={feedbackInfoItems}
+            />
+          </div>
+
           {/* Feedback Form */}
           <Card className="shadow-dental-card border-dental-blue-light animate-scale-in">
             <CardHeader className="text-center bg-gradient-to-r from-dental-blue to-dental-mint text-white rounded-t-lg">
@@ -327,18 +344,19 @@ const FeedbackPage: React.FC = () => {
                   <h3 className="text-lg font-semibold text-dental-blue">Contact Information (Optional)</h3>
                   <div className="grid gap-4 md:grid-cols-2">
                     <div>
-                      <Label htmlFor="patientName" className="text-dental-blue">Name</Label>
+                      <Label htmlFor="patientName" className="text-dental-blue">Name *</Label>
                       <Input
                         id="patientName"
                         type="text"
-                        placeholder="Your name"
+                        placeholder="Your full name"
                         value={feedback.patientName}
                         onChange={(e) => setFeedback({ ...feedback, patientName: e.target.value })}
                         className="border-dental-blue-light focus:border-dental-blue"
+                        required
                       />
                     </div>
                     <div>
-                      <Label htmlFor="email" className="text-dental-blue">Email</Label>
+                      <Label htmlFor="email" className="text-dental-blue">Email *</Label>
                       <Input
                         id="email"
                         type="email"
@@ -346,6 +364,7 @@ const FeedbackPage: React.FC = () => {
                         value={feedback.email}
                         onChange={(e) => setFeedback({ ...feedback, email: e.target.value })}
                         className="border-dental-blue-light focus:border-dental-blue"
+                        required
                       />
                     </div>
                     <div>

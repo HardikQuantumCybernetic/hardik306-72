@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { handlePhoneCall, handleEmail, handleDirections, handleEmergencyCall } from "@/utils/buttonActions";
+import QuickInfoCard from "@/components/common/QuickInfoCard";
 
 const DentalContact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -63,6 +64,13 @@ const DentalContact = () => {
     { day: "Holidays", hours: "Emergency Only" }
   ];
 
+  const contactInfoItems = [
+    { text: "All messages are responded to within 24 hours", icon: "clock" as const },
+    { text: "Emergency calls are handled immediately", icon: "alert" as const },
+    { text: "Your contact information is kept confidential", icon: "check" as const },
+    { text: "Multiple contact methods available for your convenience", icon: "info" as const },
+  ];
+
   return (
     <section id="contact" className="py-20 bg-gradient-to-br from-dental-blue-light via-white to-dental-mint-light">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,6 +89,12 @@ const DentalContact = () => {
         <div className="grid lg:grid-cols-3 gap-12">
           {/* Contact Information */}
           <div className="lg:col-span-1 space-y-8">
+            {/* Quick Info Card */}
+            <QuickInfoCard 
+              title="Contact Guidelines" 
+              items={contactInfoItems}
+            />
+            
             {/* Contact Cards */}
             {contactInfo.map((info, index) => {
               const IconComponent = info.icon;
@@ -167,7 +181,7 @@ const DentalContact = () => {
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="contactFirstName" className="text-dental-blue font-medium">
-                          First Name
+                          First Name *
                         </Label>
                         <Input 
                           id="contactFirstName" 
@@ -178,7 +192,7 @@ const DentalContact = () => {
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="contactLastName" className="text-dental-blue font-medium">
-                          Last Name
+                          Last Name *
                         </Label>
                         <Input 
                           id="contactLastName" 
@@ -193,7 +207,7 @@ const DentalContact = () => {
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="contactEmail" className="text-dental-blue font-medium">
-                          Email Address
+                          Email Address *
                         </Label>
                         <Input 
                           id="contactEmail" 
@@ -219,7 +233,7 @@ const DentalContact = () => {
                     {/* Subject */}
                     <div className="space-y-2">
                       <Label htmlFor="contactSubject" className="text-dental-blue font-medium">
-                        Subject
+                        Subject *
                       </Label>
                       <Input 
                         id="contactSubject" 
@@ -232,7 +246,7 @@ const DentalContact = () => {
                     {/* Message */}
                     <div className="space-y-2">
                       <Label htmlFor="contactMessage" className="text-dental-blue font-medium">
-                        Message
+                        Message *
                       </Label>
                       <Textarea 
                         id="contactMessage" 

@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar, Clock, User, Phone, Mail, MessageSquare, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import QuickInfoCard from "@/components/common/QuickInfoCard";
 
 const DentalBooking = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -146,6 +147,14 @@ const DentalBooking = () => {
     "Emergency Care", "Oral Surgery Consultation", "Pediatric Checkup", "Other"
   ];
 
+  const bookingInfoItems = [
+    { text: "All fields with * are required for processing", icon: "alert" as const },
+    { text: "Appointments can be scheduled from today onwards", icon: "clock" as const },
+    { text: "Doctor selection ensures proper resource allocation", icon: "users" as const },
+    { text: "Real-time updates will notify relevant staff", icon: "info" as const },
+    { text: "Confirmation will be sent via email and SMS", icon: "check" as const }
+  ];
+
   if (isSubmitted) {
     return (
       <section className="py-20 bg-gradient-to-br from-dental-blue-light via-white to-dental-mint-light">
@@ -207,6 +216,14 @@ const DentalBooking = () => {
             Schedule your visit with our expert dental team. We offer flexible scheduling 
             to accommodate your busy lifestyle.
           </p>
+        </div>
+
+        {/* Quick Info Card */}
+        <div className="max-w-2xl mx-auto mb-8">
+          <QuickInfoCard 
+            title="Appointment Guidelines" 
+            items={bookingInfoItems}
+          />
         </div>
 
         <Card className="shadow-dental-card border-dental-blue-light animate-scale-in">
