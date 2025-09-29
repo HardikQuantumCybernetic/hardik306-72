@@ -12,6 +12,7 @@ import InstallPrompt from "@/components/common/InstallPrompt";
 import UpdatePrompt from "@/components/common/UpdatePrompt";
 import { SmartDentalChatbot } from "@/components/SmartDentalChatbot";
 import PerformanceProvider from "@/components/optimized/PerformanceProvider";
+import CriticalResourceLoader from "@/components/optimized/CriticalResourceLoader";
 
 // Lazy load pages for better performance
 const Home = lazy(() => import("./pages/Home"));
@@ -65,6 +66,7 @@ const App = () => (
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <PerformanceProvider>
+            <CriticalResourceLoader />
             <Toaster />
             <Sonner />
             <BrowserRouter>

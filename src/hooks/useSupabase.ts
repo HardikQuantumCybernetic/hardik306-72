@@ -91,11 +91,27 @@ export const usePatients = () => {
   useEffect(() => {
     const channel = supabase
       .channel('patients_changes_in_hook')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'patients' },
-        () => {
-          fetchPatients()
+      .on('postgres_changes', 
+        { event: 'INSERT', schema: 'public', table: 'patients' },
+        (payload) => {
+          console.log('Patient inserted:', payload);
+          setPatients(prev => [payload.new as Patient, ...prev]);
+        }
+      )
+      .on('postgres_changes', 
+        { event: 'UPDATE', schema: 'public', table: 'patients' },
+        (payload) => {
+          console.log('Patient updated:', payload);
+          setPatients(prev => prev.map(patient => 
+            patient.id === payload.new.id ? payload.new as Patient : patient
+          ));
+        }
+      )
+      .on('postgres_changes', 
+        { event: 'DELETE', schema: 'public', table: 'patients' },
+        (payload) => {
+          console.log('Patient deleted:', payload);
+          setPatients(prev => prev.filter(patient => patient.id !== payload.old.id));
         }
       )
       .subscribe()
@@ -205,12 +221,25 @@ export const useAppointments = () => {
   useEffect(() => {
     const channel = supabase
       .channel('appointments_changes')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'appointments' },
-        () => {
-          // Refetch to merge patient data
-          fetchAppointments()
+      .on('postgres_changes', 
+        { event: 'INSERT', schema: 'public', table: 'appointments' },
+        (payload) => {
+          console.log('Appointment inserted:', payload);
+          fetchAppointments(); // Refetch to get populated data
+        }
+      )
+      .on('postgres_changes', 
+        { event: 'UPDATE', schema: 'public', table: 'appointments' },
+        (payload) => {
+          console.log('Appointment updated:', payload);
+          fetchAppointments(); // Refetch to get populated data
+        }
+      )
+      .on('postgres_changes', 
+        { event: 'DELETE', schema: 'public', table: 'appointments' },
+        (payload) => {
+          console.log('Appointment deleted:', payload);
+          setAppointments(prev => prev.filter(appointment => appointment.id !== payload.old.id));
         }
       )
       .subscribe()
