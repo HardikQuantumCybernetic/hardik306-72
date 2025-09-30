@@ -1,7 +1,7 @@
-import LoginForm from "@/components/auth/LoginForm";
+import ClerkLoginForm from "@/components/auth/ClerkLoginForm";
 
 const Login = () => {
-  return <LoginForm />;
+  return <ClerkLoginForm />;
 };
 
 export default Login;
