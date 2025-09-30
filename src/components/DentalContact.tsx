@@ -18,19 +18,60 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { handlePhoneCall, handleEmail, handleDirections, handleEmergencyCall } from "@/utils/buttonActions";
 import QuickInfoCard from "@/components/common/QuickInfoCard";
+import { useFeedback } from "@/hooks/useSupabaseExtended";
 
 const DentalContact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: ''
+  });
   const { toast } = useToast();
+  const { addFeedback } = useFeedback();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    toast({
-      title: "Message Sent Successfully!",
-      description: "We'll get back to you within 24 hours.",
-    });
-    setTimeout(() => setIsSubmitted(false), 3000);
+    
+    try {
+      // Save to feedback table with category "contact"
+      await addFeedback({
+        patient_name: `${formData.firstName} ${formData.lastName}`,
+        patient_email: formData.email,
+        patient_id: null,
+        message: `Subject: ${formData.subject}\nPhone: ${formData.phone || 'Not provided'}\n\nMessage:\n${formData.message}`,
+        rating: 5, // Default rating for contact messages
+        category: 'contact',
+        status: 'new'
+      });
+
+      setIsSubmitted(true);
+      toast({
+        title: "Message Sent Successfully!",
+        description: "We'll get back to you within 24 hours.",
+      });
+
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      });
+
+      setTimeout(() => setIsSubmitted(false), 3000);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const contactInfo = [
@@ -188,6 +229,8 @@ const DentalContact = () => {
                           required 
                           className="border-dental-blue-light focus:border-dental-blue"
                           placeholder="Enter your first name"
+                          value={formData.firstName}
+                          onChange={(e) => setFormData({...formData, firstName: e.target.value})}
                         />
                       </div>
                       <div className="space-y-2">
@@ -199,6 +242,8 @@ const DentalContact = () => {
                           required 
                           className="border-dental-blue-light focus:border-dental-blue"
                           placeholder="Enter your last name"
+                          value={formData.lastName}
+                          onChange={(e) => setFormData({...formData, lastName: e.target.value})}
                         />
                       </div>
                     </div>
@@ -215,6 +260,8 @@ const DentalContact = () => {
                           required 
                           className="border-dental-blue-light focus:border-dental-blue"
                           placeholder="your.email@example.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData({...formData, email: e.target.value})}
                         />
                       </div>
                       <div className="space-y-2">
@@ -226,6 +273,8 @@ const DentalContact = () => {
                           type="tel" 
                           className="border-dental-blue-light focus:border-dental-blue"
                           placeholder="(555) 123-4567"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         />
                       </div>
                     </div>
@@ -240,6 +289,8 @@ const DentalContact = () => {
                         required 
                         className="border-dental-blue-light focus:border-dental-blue"
                         placeholder="What is your inquiry about?"
+                        value={formData.subject}
+                        onChange={(e) => setFormData({...formData, subject: e.target.value})}
                       />
                     </div>
 
@@ -254,6 +305,8 @@ const DentalContact = () => {
                         className="border-dental-blue-light focus:border-dental-blue"
                         placeholder="Please describe your question or concern..."
                         rows={6}
+                        value={formData.message}
+                        onChange={(e) => setFormData({...formData, message: e.target.value})}
                       />
                     </div>
 

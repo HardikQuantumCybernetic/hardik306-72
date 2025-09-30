@@ -28,6 +28,7 @@ const FeedbackManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterRating, setFilterRating] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [filterCategory, setFilterCategory] = useState("all");
   const { toast } = useToast();
   const { feedback, loading, updateFeedback } = useFeedback();
 
@@ -68,10 +69,11 @@ const FeedbackManagement = () => {
       
       const matchesRating = filterRating === "all" || feedbackItem.rating.toString() === filterRating;
       const matchesStatus = filterStatus === "all" || feedbackItem.status === filterStatus;
+      const matchesCategory = filterCategory === "all" || feedbackItem.category === filterCategory;
       
-      return matchesSearch && matchesRating && matchesStatus;
+      return matchesSearch && matchesRating && matchesStatus && matchesCategory;
     });
-  }, [feedback, searchTerm, filterRating, filterStatus]);
+  }, [feedback, searchTerm, filterRating, filterStatus, filterCategory]);
 
   const averageRating = useMemo(() => {
     const total = filteredFeedbacks.reduce((sum, feedbackItem) => sum + feedbackItem.rating, 0);
@@ -132,8 +134,8 @@ const FeedbackManagement = () => {
       {/* Header */}
       <div className="flex flex-col space-y-3 md:space-y-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-foreground">Feedback Management</h2>
-          <p className="text-dental-gray text-sm md:text-base">Monitor and manage patient feedback and reviews (Real-time updates enabled)</p>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground">Feedback & Contact Messages</h2>
+          <p className="text-dental-gray text-sm md:text-base">Monitor patient feedback, reviews, and website contact messages in real-time</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
           <Button variant="dental-outline" size="sm" onClick={() => handleExportFeedbacks('csv')}>
@@ -150,16 +152,16 @@ const FeedbackManagement = () => {
       {/* Search and Filter Controls */}
       <Card className="border-dental-blue-light">
         <CardContent className="p-6">
-          <div className="flex gap-4">
-            <div className="flex-1">
+          <div className="flex gap-4 flex-wrap">
+            <div className="flex-1 min-w-[200px]">
               <Label htmlFor="search" className="text-dental-blue font-medium mb-2 block">
-                Search Feedback
+                Search
               </Label>
               <div className="relative">
                 <Search className="absolute left-3 top-3 w-4 h-4 text-dental-gray" />
                 <Input
                   id="search"
-                  placeholder="Search by patient name, email, or message..."
+                  placeholder="Search by name, email, or message..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10 border-dental-blue-light focus:border-dental-blue"
@@ -168,8 +170,26 @@ const FeedbackManagement = () => {
             </div>
             
             <div className="w-40">
+              <Label htmlFor="filterCategory" className="text-dental-blue font-medium mb-2 block">
+                Category
+              </Label>
+              <select
+                id="filterCategory"
+                value={filterCategory}
+                onChange={(e) => setFilterCategory(e.target.value)}
+                className="w-full p-2 border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-white"
+              >
+                <option value="all">All Types</option>
+                <option value="contact">Contact Messages</option>
+                <option value="general">General Feedback</option>
+                <option value="service">Service Review</option>
+                <option value="complaint">Complaint</option>
+              </select>
+            </div>
+
+            <div className="w-40">
               <Label htmlFor="filterRating" className="text-dental-blue font-medium mb-2 block">
-                Filter by Rating
+                Rating
               </Label>
               <select
                 id="filterRating"
@@ -188,7 +208,7 @@ const FeedbackManagement = () => {
 
             <div className="w-40">
               <Label htmlFor="filterStatus" className="text-dental-blue font-medium mb-2 block">
-                Filter by Status
+                Status
               </Label>
               <select
                 id="filterStatus"
@@ -247,8 +267,8 @@ const FeedbackManagement = () => {
       {/* Feedback Table */}
       <Card className="border-dental-blue-light">
         <CardHeader>
-          <CardTitle className="text-dental-blue">Patient Feedback</CardTitle>
-          <CardDescription>All patient reviews and feedback with real-time updates</CardDescription>
+          <CardTitle className="text-dental-blue">All Messages & Feedback</CardTitle>
+          <CardDescription>Patient reviews, feedback, and website contact messages with real-time updates</CardDescription>
         </CardHeader>
         <CardContent>
           {filteredFeedbacks.length > 0 ? (
