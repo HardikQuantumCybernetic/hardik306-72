@@ -8,7 +8,6 @@ import {
   Users,
   Calendar,
   BarChart3,
-  Settings,
   LogOut,
   User,
   MessageSquare
@@ -17,7 +16,6 @@ import AdminDashboard from "./admin/AdminDashboard";
 import PatientManagementSupabase from "./admin/PatientManagementSupabase";
 import AppointmentManagement from "./admin/AppointmentManagement";
 import ReportsAnalytics from "./admin/ReportsAnalytics";
-import AdminSettings from "./admin/AdminSettings";
 import FeedbackManagement from "./admin/FeedbackManagement";
 
 interface AdminPanelProps {
@@ -33,8 +31,7 @@ const AdminPanel = ({ onLogout }: AdminPanelProps) => {
     { id: "patients", label: "Patient Management", icon: Users },
     { id: "appointments", label: "Appointments", icon: Calendar },
     { id: "feedback", label: "Feedback", icon: MessageSquare },
-    { id: "reports", label: "Reports & Analytics", icon: BarChart3 },
-    { id: "settings", label: "Settings", icon: Settings }
+    { id: "reports", label: "Reports & Analytics", icon: BarChart3 }
   ];
 
   const renderActiveComponent = () => {
@@ -49,8 +46,6 @@ const AdminPanel = ({ onLogout }: AdminPanelProps) => {
         return <FeedbackManagement />;
       case "reports":
         return <ReportsAnalytics />;
-      case "settings":
-        return <AdminSettings />;
       default:
         return <AdminDashboard />;
     }
