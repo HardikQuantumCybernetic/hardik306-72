@@ -53,7 +53,7 @@ const DentalNavbar = () => {
                       <ChevronDown className="w-4 h-4 ml-1" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56">
+                  <DropdownMenuContent className="w-56 bg-background z-50">
                     <DropdownMenuItem asChild>
                       <Link to="/services" className="w-full">
                         All Services

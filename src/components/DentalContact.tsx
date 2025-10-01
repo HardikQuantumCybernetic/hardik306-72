@@ -36,13 +36,41 @@ const DentalContact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate inputs
+    if (!formData.firstName.trim() || !formData.lastName.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Please enter both first and last name.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email)) {
+      toast({
+        title: "Validation Error",
+        description: "Please enter a valid email address.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!formData.subject.trim() || !formData.message.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in subject and message fields.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     try {
       // Save to feedback table with category "contact"
       await addFeedback({
-        patient_name: `${formData.firstName} ${formData.lastName}`,
-        patient_email: formData.email,
+        patient_name: `${formData.firstName.trim()} ${formData.lastName.trim()}`,
+        patient_email: formData.email.trim(),
         patient_id: null,
-        message: `Subject: ${formData.subject}\nPhone: ${formData.phone || 'Not provided'}\n\nMessage:\n${formData.message}`,
+        message: `Subject: ${formData.subject.trim()}\nPhone: ${formData.phone.trim() || 'Not provided'}\n\nMessage:\n${formData.message.trim()}`,
         rating: 5, // Default rating for contact messages
         category: 'contact',
         status: 'new'
@@ -66,6 +94,7 @@ const DentalContact = () => {
 
       setTimeout(() => setIsSubmitted(false), 3000);
     } catch (error) {
+      console.error('Contact form submission error:', error);
       toast({
         title: "Error",
         description: "Failed to send message. Please try again.",
