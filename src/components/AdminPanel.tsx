@@ -10,13 +10,15 @@ import {
   BarChart3,
   LogOut,
   User,
-  MessageSquare
+  MessageSquare,
+  Mail
 } from "lucide-react";
 import AdminDashboard from "./admin/AdminDashboard";
 import PatientManagementSupabase from "./admin/PatientManagementSupabase";
 import AppointmentManagement from "./admin/AppointmentManagement";
 import ReportsAnalytics from "./admin/ReportsAnalytics";
 import FeedbackManagement from "./admin/FeedbackManagement";
+import MessagesManagement from "./admin/MessagesManagement";
 
 interface AdminPanelProps {
   onLogout?: () => void;
@@ -30,6 +32,7 @@ const AdminPanel = ({ onLogout }: AdminPanelProps) => {
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "patients", label: "Patient Management", icon: Users },
     { id: "appointments", label: "Appointments", icon: Calendar },
+    { id: "messages", label: "Contact Messages", icon: Mail },
     { id: "feedback", label: "Feedback", icon: MessageSquare },
     { id: "reports", label: "Reports & Analytics", icon: BarChart3 }
   ];
@@ -42,6 +45,8 @@ const AdminPanel = ({ onLogout }: AdminPanelProps) => {
         return <PatientManagementSupabase />;
       case "appointments":
         return <AppointmentManagement />;
+      case "messages":
+        return <MessagesManagement />;
       case "feedback":
         return <FeedbackManagement />;
       case "reports":
