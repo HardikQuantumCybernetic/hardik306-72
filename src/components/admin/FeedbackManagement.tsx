@@ -32,6 +32,11 @@ const FeedbackManagement = () => {
   const { toast } = useToast();
   const { feedback, loading, updateFeedback } = useFeedback();
 
+  // Filter out contact messages - those are shown in Messages tab
+  const actualFeedback = useMemo(() => {
+    return feedback.filter(item => item.category !== 'contact');
+  }, [feedback]);
+
   const getRatingColor = (rating: number) => {
     if (rating >= 5) return "text-success";
     if (rating >= 4) return "text-dental-mint";
@@ -61,7 +66,7 @@ const FeedbackManagement = () => {
   };
 
   const filteredFeedbacks = useMemo(() => {
-    return feedback.filter(feedbackItem => {
+    return actualFeedback.filter(feedbackItem => {
       const matchesSearch = searchTerm === "" || 
         feedbackItem.patient_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         feedbackItem.patient_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -73,7 +78,7 @@ const FeedbackManagement = () => {
       
       return matchesSearch && matchesRating && matchesStatus && matchesCategory;
     });
-  }, [feedback, searchTerm, filterRating, filterStatus, filterCategory]);
+  }, [actualFeedback, searchTerm, filterRating, filterStatus, filterCategory]);
 
   const averageRating = useMemo(() => {
     const total = filteredFeedbacks.reduce((sum, feedbackItem) => sum + feedbackItem.rating, 0);
@@ -81,7 +86,7 @@ const FeedbackManagement = () => {
   }, [filteredFeedbacks]);
 
   const handleViewFeedback = (feedbackId: string) => {
-    const feedbackItem = feedback.find(f => f.id === feedbackId);
+    const feedbackItem = actualFeedback.find(f => f.id === feedbackId);
     if (feedbackItem) {
       toast({
         title: `Feedback from ${feedbackItem.patient_name}`,
@@ -134,8 +139,8 @@ const FeedbackManagement = () => {
       {/* Header */}
       <div className="flex flex-col space-y-3 md:space-y-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-foreground">Feedback & Contact Messages</h2>
-          <p className="text-dental-gray text-sm md:text-base">Monitor patient feedback, reviews, and website contact messages in real-time</p>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground">Patient Feedback & Reviews</h2>
+          <p className="text-dental-gray text-sm md:text-base">Monitor patient feedback and service reviews in real-time</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
           <Button variant="dental-outline" size="sm" onClick={() => handleExportFeedbacks('csv')}>
@@ -180,7 +185,6 @@ const FeedbackManagement = () => {
                 className="w-full p-2 border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-white"
               >
                 <option value="all">All Types</option>
-                <option value="contact">Contact Messages</option>
                 <option value="general">General Feedback</option>
                 <option value="service">Service Review</option>
                 <option value="complaint">Complaint</option>
@@ -230,7 +234,7 @@ const FeedbackManagement = () => {
         <Card className="border-dental-blue-light">
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-dental-blue">{feedback.length}</p>
+              <p className="text-2xl font-bold text-dental-blue">{actualFeedback.length}</p>
               <p className="text-dental-gray">Total Reviews</p>
             </div>
           </CardContent>
@@ -249,7 +253,7 @@ const FeedbackManagement = () => {
         <Card className="border-dental-blue-light">
           <CardContent className="p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-dental-blue">{feedback.filter(f => f.status === 'new').length}</p>
+              <p className="text-2xl font-bold text-dental-blue">{actualFeedback.filter(f => f.status === 'new').length}</p>
               <p className="text-dental-gray">New Reviews</p>
             </div>
           </CardContent>
@@ -267,8 +271,8 @@ const FeedbackManagement = () => {
       {/* Feedback Table */}
       <Card className="border-dental-blue-light">
         <CardHeader>
-          <CardTitle className="text-dental-blue">All Messages & Feedback</CardTitle>
-          <CardDescription>Patient reviews, feedback, and website contact messages with real-time updates</CardDescription>
+          <CardTitle className="text-dental-blue">Patient Feedback & Reviews</CardTitle>
+          <CardDescription>All patient feedback and service reviews with real-time updates</CardDescription>
         </CardHeader>
         <CardContent>
           {filteredFeedbacks.length > 0 ? (
