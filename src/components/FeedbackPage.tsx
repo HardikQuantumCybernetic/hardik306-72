@@ -8,6 +8,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import { Star, Phone, Mail, CheckCircle, MessageSquare, Users, Heart } from 'lucide-react';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 import DentalNavbar from './DentalNavbar';
 import DentalFooter from './DentalFooter';
 import QuickInfoCard from '@/components/common/QuickInfoCard';
@@ -129,32 +131,57 @@ const FeedbackPage: React.FC = () => {
       return;
     }
 
+    if (!feedback.patientName || !feedback.email) {
+      toast.error('Name and email are required');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      // For now, store feedback locally and show success
-      // In production, you would send this to your backend/database
-      const feedbackData = {
-        overall_rating: parseInt(feedback.overallRating),
-        staff_friendliness: parseInt(feedback.staffFriendliness) || null,
-        appointment_scheduling: parseInt(feedback.appointmentScheduling) || null,
-        treatment_satisfaction: parseInt(feedback.treatmentSatisfaction) || null,
-        comments: feedback.comments || null,
-        suggestions: feedback.suggestions || null,
-        patient_name: feedback.patientName || null,
-        email: feedback.email || null,
-        phone: feedback.phone || null,
-        created_at: new Date().toISOString()
-      };
+      // Calculate average rating for message field
+      const ratings = [
+        parseInt(feedback.overallRating),
+        feedback.staffFriendliness ? parseInt(feedback.staffFriendliness) : 0,
+        feedback.appointmentScheduling ? parseInt(feedback.appointmentScheduling) : 0,
+        feedback.treatmentSatisfaction ? parseInt(feedback.treatmentSatisfaction) : 0
+      ].filter(r => r > 0);
+      
+      const avgRating = Math.round(ratings.reduce((a, b) => a + b, 0) / ratings.length);
 
-      // Log the feedback for now (in production, send to your backend)
-      console.log('Feedback submitted:', feedbackData);
+      // Combine comments and suggestions
+      let message = feedback.comments || '';
+      if (feedback.suggestions) {
+        message += message ? '\n\nSuggestions: ' + feedback.suggestions : 'Suggestions: ' + feedback.suggestions;
+      }
+      if (feedback.staffFriendliness) {
+        message += `\n\nStaff Friendliness: ${feedback.staffFriendliness}/5`;
+      }
+      if (feedback.appointmentScheduling) {
+        message += `\nAppointment Scheduling: ${feedback.appointmentScheduling}/5`;
+      }
+      if (feedback.treatmentSatisfaction) {
+        message += `\nTreatment Satisfaction: ${feedback.treatmentSatisfaction}/5`;
+      }
+      
+      const { error } = await supabase
+        .from('feedback')
+        .insert({
+          patient_name: feedback.patientName,
+          patient_email: feedback.email,
+          rating: avgRating,
+          message: message || 'No additional comments provided',
+          category: 'general',
+          status: 'new'
+        });
+
+      if (error) throw error;
       
       setIsSubmitted(true);
       toast.success('Thank you for your feedback!');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting feedback:', error);
-      toast.error('Failed to submit feedback. Please try again.');
+      toast.error(error.message || 'Failed to submit feedback. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -176,20 +203,22 @@ const FeedbackPage: React.FC = () => {
                   We appreciate your time and input. Your responses will help us improve our services.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => window.location.href = '/'}
-                    className="flex items-center gap-2 border-dental-blue-light hover:bg-dental-blue-light"
-                  >
-                    Return Home
-                  </Button>
-                  <Button 
-                    variant="dental"
-                    onClick={() => window.location.href = '/booking'}
-                    className="flex items-center gap-2"
-                  >
-                    Book Another Appointment
-                  </Button>
+                  <Link to="/">
+                    <Button 
+                      variant="outline" 
+                      className="flex items-center gap-2 border-dental-blue-light hover:bg-dental-blue-light"
+                    >
+                      Return Home
+                    </Button>
+                  </Link>
+                  <Link to="/booking">
+                    <Button 
+                      variant="dental"
+                      className="flex items-center gap-2"
+                    >
+                      Book Another Appointment
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
