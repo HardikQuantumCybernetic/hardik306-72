@@ -25,7 +25,7 @@ interface AdminPanelProps {
 }
 
 const AdminPanel = ({ onLogout }: AdminPanelProps) => {
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState("feedback");
   const [userRole] = useState("Admin"); // This would come from authentication
 
   const navigationItems = [
