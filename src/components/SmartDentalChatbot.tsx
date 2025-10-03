@@ -233,19 +233,28 @@ export const SmartDentalChatbot: React.FC = () => {
 
   const getGeminiResponse = async (message: string): Promise<string> => {
     try {
-      const response = await fetch('/functions/v1/chat-with-gemini', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message,
-          context: "You are a helpful dental assistant for Hardik Dental Practice. Provide professional, friendly responses about dental care, appointments, and services. Always encourage patients to call (808) 095-0921 for specific medical advice or emergencies."
-        }),
+      const context = `You are a helpful dental assistant for Hardik Dental Practice. 
+      Our services include: General Dentistry, Teeth Cleaning, Fillings, Root Canals, Braces, Cosmetic Dentistry, Teeth Whitening, Emergency Care.
+      Our hours: Monday-Saturday 9 AM - 6 PM, Saturday 9 AM - 2 PM.
+      Phone: (808) 095-0921
+      Address: Main Office
+      
+      Provide helpful, professional responses about dental care, services, or general oral health information. Keep responses concise and informative.`;
+
+      console.log('Calling Gemini API via edge function:', message);
+
+      const { data, error } = await supabase.functions.invoke('chat-with-gemini', {
+        body: { message, context }
       });
 
-      const data = await response.json();
-      return data.response || "I'm here to help with your dental questions. Please call our office at (808) 095-0921 for specific medical advice.";
+      console.log('Gemini API response:', data, 'Error:', error);
+
+      if (error) {
+        console.error('Gemini API error:', error);
+        throw error;
+      }
+
+      return data?.response || "I'm here to help! For specific questions, please call us at (808) 095-0921.";
     } catch (error) {
       console.error('Gemini API error:', error);
       return "I'm experiencing technical difficulties. Please call our office at (808) 095-0921 for assistance, or try asking your question again.";
