@@ -28,7 +28,15 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const PatientDashboardPage = lazy(() => import("./pages/PatientDashboard"));
 const Feedback = lazy(() => import("./pages/Feedback"));
 
-const queryClient = new QueryClient();
+// Initialize QueryClient once outside component
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+      retry: 1,
+    },
+  },
+});
 
 // Loading fallback component
 const PageLoadingFallback = () => (
