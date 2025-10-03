@@ -243,12 +243,19 @@ export const appointmentService = {
 // Feedback service
 export const feedbackService = {
   async getAll() {
+    console.log('🔍 Fetching feedback from Supabase...')
+    
     const { data, error } = await supabase
       .from('feedback')
       .select('*')
       .order('created_at', { ascending: false })
     
-    if (error) throw error
+    console.log('📊 Feedback query result:', { data, error, count: data?.length })
+    
+    if (error) {
+      console.error('❌ Feedback fetch error:', error)
+      throw error
+    }
     return data as Feedback[]
   },
 
