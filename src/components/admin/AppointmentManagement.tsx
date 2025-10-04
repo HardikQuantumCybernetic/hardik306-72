@@ -102,18 +102,18 @@ const AppointmentManagement = () => {
               <CardContent className="p-6">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <div className="flex items-center space-x-4 mb-3">
+                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <h3 className="font-semibold text-lg text-foreground">
                           Patient: {appointment.patient_name || `ID: ${appointment.patient_id?.slice(0, 8)}...`}
                         </h3>
                         <p className="text-dental-gray">{appointment.service_type}</p>
                       </div>
-                    <Badge className={`${getStatusColor(appointment.status)} flex items-center space-x-1`}>
-                      {getStatusIcon(appointment.status)}
-                      <span className="capitalize">{appointment.status}</span>
-                    </Badge>
-                  </div>
+                      <Badge className={`${getStatusColor(appointment.status)} flex items-center space-x-1`}>
+                        {getStatusIcon(appointment.status)}
+                        <span className="capitalize">{appointment.status}</span>
+                      </Badge>
+                    </div>
                   
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-dental-gray">
                     <div className="flex items-center space-x-2">

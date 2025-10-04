@@ -241,22 +241,18 @@ export const SmartDentalChatbot: React.FC = () => {
       
       Provide helpful, professional responses about dental care, services, or general oral health information. Keep responses concise and informative.`;
 
-      console.log('Calling Gemini API via edge function:', message);
-
       const { data, error } = await supabase.functions.invoke('chat-with-gemini', {
         body: { message, context }
       });
 
-      console.log('Gemini API response:', data, 'Error:', error);
-
       if (error) {
-        console.error('Gemini API error:', error);
+        console.error('❌ Gemini API error:', error);
         throw error;
       }
 
       return data?.response || "I'm here to help! For specific questions, please call us at (808) 095-0921.";
     } catch (error) {
-      console.error('Gemini API error:', error);
+      console.error('❌ Gemini API error:', error);
       return "I'm experiencing technical difficulties. Please call our office at (808) 095-0921 for assistance, or try asking your question again.";
     }
   };
