@@ -177,7 +177,7 @@ const PatientManagementSupabase = () => {
           <p className="text-dental-gray">Manage patient records with Supabase integration</p>
         </div>
         
-        <div className="flex space-x-4">
+        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-3 w-4 h-4 text-dental-gray" />
             <Input
@@ -190,7 +190,7 @@ const PatientManagementSupabase = () => {
           
           <Dialog open={showAddForm} onOpenChange={setShowAddForm}>
             <DialogTrigger asChild>
-              <Button variant="dental" onClick={() => setShowAddForm(true)}>
+              <Button variant="dental" onClick={() => setShowAddForm(true)} className="w-full sm:w-auto">
                 <UserPlus className="w-4 h-4 mr-2" />
                 Add Patient
               </Button>
@@ -204,7 +204,7 @@ const PatientManagementSupabase = () => {
               </DialogHeader>
               
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Full Name</Label>
                     <Input
@@ -228,7 +228,7 @@ const PatientManagementSupabase = () => {
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone</Label>
                     <Input
@@ -298,7 +298,7 @@ const PatientManagementSupabase = () => {
       </div>
 
       {/* Patient Statistics */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
         <Card className="border-dental-blue-light">
           <CardContent className="p-4">
             <div className="text-center">
@@ -389,8 +389,8 @@ const PatientManagementSupabase = () => {
                         )}
                       </div>
                       
-                      <div className="flex flex-col space-y-2">
-                        <Badge variant={patient.status === 'active' ? 'default' : 'secondary'}>
+                      <div className="flex flex-col sm:flex-row sm:items-start space-y-2 sm:space-y-0 sm:space-x-2">
+                        <Badge variant={patient.status === 'active' ? 'default' : 'secondary'} className="w-fit">
                           {patient.status}
                         </Badge>
                         <div className="flex flex-wrap gap-1">

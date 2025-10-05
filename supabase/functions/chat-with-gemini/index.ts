@@ -23,7 +23,7 @@ serve(async (req) => {
     }
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
       {
         method: 'POST',
         headers: {
@@ -52,6 +52,7 @@ serve(async (req) => {
     const data = await response.json()
     
     if (!response.ok) {
+      console.error('Gemini API error:', data)
       throw new Error(data.error?.message || 'Failed to get response from Gemini')
     }
 

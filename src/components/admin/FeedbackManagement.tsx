@@ -157,32 +157,32 @@ const FeedbackManagement = () => {
       {/* Search and Filter Controls */}
       <Card className="border-dental-blue-light">
         <CardContent className="p-6">
-          <div className="flex gap-4 flex-wrap">
-            <div className="flex-1 min-w-[200px]">
-              <Label htmlFor="search" className="text-dental-blue font-medium mb-2 block">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            <div className="sm:col-span-2 lg:col-span-1">
+              <Label htmlFor="search" className="text-dental-blue font-medium mb-2 block text-sm">
                 Search
               </Label>
               <div className="relative">
                 <Search className="absolute left-3 top-3 w-4 h-4 text-dental-gray" />
                 <Input
                   id="search"
-                  placeholder="Search by name, email, or message..."
+                  placeholder="Search..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 border-dental-blue-light focus:border-dental-blue"
+                  className="pl-10 border-dental-blue-light focus:border-dental-blue text-sm"
                 />
               </div>
             </div>
             
-            <div className="w-40">
-              <Label htmlFor="filterCategory" className="text-dental-blue font-medium mb-2 block">
+            <div>
+              <Label htmlFor="filterCategory" className="text-dental-blue font-medium mb-2 block text-sm">
                 Category
               </Label>
               <select
                 id="filterCategory"
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="w-full p-2 border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-white"
+                className="w-full p-2 text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-white"
               >
                 <option value="all">All Types</option>
                 <option value="general">General Feedback</option>
@@ -191,15 +191,15 @@ const FeedbackManagement = () => {
               </select>
             </div>
 
-            <div className="w-40">
-              <Label htmlFor="filterRating" className="text-dental-blue font-medium mb-2 block">
+            <div>
+              <Label htmlFor="filterRating" className="text-dental-blue font-medium mb-2 block text-sm">
                 Rating
               </Label>
               <select
                 id="filterRating"
                 value={filterRating}
                 onChange={(e) => setFilterRating(e.target.value)}
-                className="w-full p-2 border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-white"
+                className="w-full p-2 text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-white"
               >
                 <option value="all">All Ratings</option>
                 <option value="5">5 Stars</option>
@@ -210,15 +210,15 @@ const FeedbackManagement = () => {
               </select>
             </div>
 
-            <div className="w-40">
-              <Label htmlFor="filterStatus" className="text-dental-blue font-medium mb-2 block">
+            <div>
+              <Label htmlFor="filterStatus" className="text-dental-blue font-medium mb-2 block text-sm">
                 Status
               </Label>
               <select
                 id="filterStatus"
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="w-full p-2 border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-white"
+                className="w-full p-2 text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-white"
               >
                 <option value="all">All Status</option>
                 <option value="new">New</option>
@@ -230,7 +230,7 @@ const FeedbackManagement = () => {
       </Card>
 
       {/* Feedback Statistics */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
         <Card className="border-dental-blue-light">
           <CardContent className="p-4">
             <div className="text-center">
@@ -276,16 +276,16 @@ const FeedbackManagement = () => {
         </CardHeader>
         <CardContent>
           {filteredFeedbacks.length > 0 ? (
-            <div className="rounded-lg border border-dental-blue-light overflow-hidden">
+            <div className="rounded-lg border border-dental-blue-light overflow-x-auto">
               <Table>
                 <TableHeader className="bg-dental-blue-light">
                   <TableRow>
-                    <TableHead className="font-semibold text-dental-blue">Patient</TableHead>
-                    <TableHead className="font-semibold text-dental-blue">Rating</TableHead>
-                    <TableHead className="font-semibold text-dental-blue">Message</TableHead>
-                    <TableHead className="font-semibold text-dental-blue">Date</TableHead>
-                    <TableHead className="font-semibold text-dental-blue">Status</TableHead>
-                    <TableHead className="font-semibold text-dental-blue">Actions</TableHead>
+                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Patient</TableHead>
+                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Rating</TableHead>
+                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Message</TableHead>
+                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Date</TableHead>
+                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Status</TableHead>
+                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

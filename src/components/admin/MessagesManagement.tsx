@@ -147,32 +147,32 @@ const MessagesManagement = () => {
       {/* Search and Filter Controls */}
       <Card className="border-dental-blue-light">
         <CardContent className="p-6">
-          <div className="flex gap-4 flex-wrap">
-            <div className="flex-1 min-w-[200px]">
-              <Label htmlFor="search" className="text-dental-blue font-medium mb-2 block">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+            <div>
+              <Label htmlFor="search" className="text-dental-blue font-medium mb-2 block text-sm">
                 Search
               </Label>
               <div className="relative">
                 <Search className="absolute left-3 top-3 w-4 h-4 text-dental-gray" />
                 <Input
                   id="search"
-                  placeholder="Search by name, email, or message..."
+                  placeholder="Search..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 border-dental-blue-light focus:border-dental-blue"
+                  className="pl-10 border-dental-blue-light focus:border-dental-blue text-sm"
                 />
               </div>
             </div>
 
-            <div className="w-40">
-              <Label htmlFor="filterStatus" className="text-dental-blue font-medium mb-2 block">
+            <div>
+              <Label htmlFor="filterStatus" className="text-dental-blue font-medium mb-2 block text-sm">
                 Status
               </Label>
               <select
                 id="filterStatus"
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="w-full p-2 border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-background"
+                className="w-full p-2 text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-background"
               >
                 <option value="all">All Status</option>
                 <option value="new">New</option>
@@ -219,15 +219,15 @@ const MessagesManagement = () => {
         </CardHeader>
         <CardContent>
           {filteredMessages.length > 0 ? (
-            <div className="rounded-lg border border-dental-blue-light overflow-hidden">
+            <div className="rounded-lg border border-dental-blue-light overflow-x-auto">
               <Table>
                 <TableHeader className="bg-dental-blue-light">
                   <TableRow>
-                    <TableHead className="font-semibold text-dental-blue">Contact Info</TableHead>
-                    <TableHead className="font-semibold text-dental-blue">Message</TableHead>
-                    <TableHead className="font-semibold text-dental-blue">Date</TableHead>
-                    <TableHead className="font-semibold text-dental-blue">Status</TableHead>
-                    <TableHead className="font-semibold text-dental-blue">Actions</TableHead>
+                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Contact Info</TableHead>
+                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Message</TableHead>
+                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Date</TableHead>
+                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Status</TableHead>
+                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
