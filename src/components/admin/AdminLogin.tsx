@@ -3,39 +3,59 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Shield, Eye, EyeOff } from "lucide-react";
+import { Shield, Eye, EyeOff, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
 
 interface AdminLoginProps {
-  onLogin: (success: boolean) => void;
+  onLogin: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
 }
 
+const loginSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+});
+
 const AdminLogin = ({ onLogin }: AdminLoginProps) => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
     setIsLoading(true);
 
-    // Simulate login delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Validate inputs
+    const validation = loginSchema.safeParse({ email, password });
+    
+    if (!validation.success) {
+      const formErrors: { email?: string; password?: string } = {};
+      validation.error.errors.forEach((error) => {
+        if (error.path[0] === 'email') formErrors.email = error.message;
+        if (error.path[0] === 'password') formErrors.password = error.message;
+      });
+      setErrors(formErrors);
+      setIsLoading(false);
+      return;
+    }
 
-    if (password === "hard30hardik") {
+    const result = await onLogin(email, password);
+    
+    if (result.success) {
       toast({
         title: "Login Successful",
         description: "Welcome to the admin panel",
       });
-      onLogin(true);
     } else {
       toast({
         title: "Login Failed",
-        description: "Invalid password. Please try again.",
+        description: result.error || "Invalid credentials. Please try again.",
         variant: "destructive"
       });
-      onLogin(false);
     }
     
     setIsLoading(false);
@@ -59,6 +79,27 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
+              <Label htmlFor="email" className="text-dental-gray font-medium">
+                Email Address
+              </Label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-3 h-4 w-4 text-dental-gray" />
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="admin@example.com"
+                  className={`pl-10 border-dental-blue-light focus:border-dental-blue ${errors.email ? 'border-red-500' : ''}`}
+                  required
+                />
+              </div>
+              {errors.email && (
+                <p className="text-sm text-red-500">{errors.email}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="password" className="text-dental-gray font-medium">
                 Password
               </Label>
@@ -68,8 +109,8 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter admin password"
-                  className="pr-10 border-dental-blue-light focus:border-dental-blue"
+                  placeholder="Enter your password"
+                  className={`pr-10 border-dental-blue-light focus:border-dental-blue ${errors.password ? 'border-red-500' : ''}`}
                   required
                 />
                 <Button
@@ -86,6 +127,9 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
                   )}
                 </Button>
               </div>
+              {errors.password && (
+                <p className="text-sm text-red-500">{errors.password}</p>
+              )}
             </div>
             
             <Button
@@ -93,7 +137,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
               variant="dental"
               size="lg"
               className="w-full font-inter"
-              disabled={isLoading || !password}
+              disabled={isLoading || !email || !password}
             >
               {isLoading ? "Signing In..." : "Sign In"}
             </Button>

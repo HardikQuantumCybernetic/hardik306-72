@@ -1,43 +1,49 @@
-
-import { useState, useEffect } from "react";
 import DentalNavbar from "@/components/DentalNavbar";
 import DentalFooter from "@/components/DentalFooter";
 import AdminPanel from "@/components/AdminPanel";
 import AdminLogin from "@/components/admin/AdminLogin";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 const Admin = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { user, isAdmin, loading, signIn, signOut } = useAdminAuth();
 
-  useEffect(() => {
-    // Check if user is already authenticated (from localStorage)
-    const authenticated = localStorage.getItem('admin_authenticated') === 'true';
-    setIsAuthenticated(authenticated);
-    setIsLoading(false);
-  }, []);
-
-  const handleLogin = (success: boolean) => {
-    if (success) {
-      setIsAuthenticated(true);
-      localStorage.setItem('admin_authenticated', 'true');
-    }
+  const handleLogin = async (email: string, password: string) => {
+    return await signIn(email, password);
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem('admin_authenticated');
+  const handleLogout = async () => {
+    await signOut();
   };
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-background font-inter flex items-center justify-center">
-        <div className="text-dental-blue">Loading...</div>
+        <LoadingSpinner size="lg" text="Verifying admin access..." />
       </div>
     );
   }
 
-  if (!isAuthenticated) {
-    return <AdminLogin onLogin={handleLogin} />;
+  // Show login page if not authenticated or not an admin
+  if (!user || !isAdmin) {
+    return (
+      <>
+        <AdminLogin onLogin={handleLogin} />
+        {user && !isAdmin && (
+          <div className="fixed bottom-4 right-4 max-w-md">
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Access Denied</AlertTitle>
+              <AlertDescription>
+                You don't have admin privileges. Please contact your system administrator.
+              </AlertDescription>
+            </Alert>
+          </div>
+        )}
+      </>
+    );
   }
 
   return (
