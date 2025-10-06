@@ -135,54 +135,54 @@ const FeedbackManagement = () => {
   }
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-3 md:space-y-6 px-2 sm:px-0">
       {/* Header */}
-      <div className="flex flex-col space-y-3 md:space-y-4">
+      <div className="flex flex-col space-y-2 md:space-y-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-foreground">Patient Feedback & Reviews</h2>
-          <p className="text-dental-gray text-sm md:text-base">Monitor patient feedback and service reviews in real-time</p>
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground">Patient Feedback & Reviews</h2>
+          <p className="text-dental-gray text-xs sm:text-sm md:text-base">Monitor patient feedback and service reviews in real-time</p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <Button variant="dental-outline" size="sm" onClick={() => handleExportFeedbacks('csv')}>
-            <Download className="w-4 h-4 mr-2" />
-            Export CSV
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <Button variant="dental-outline" size="sm" onClick={() => handleExportFeedbacks('csv')} className="w-full sm:w-auto text-xs sm:text-sm">
+            <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden xs:inline">Export </span>CSV
           </Button>
-          <Button variant="dental-outline" size="sm" onClick={() => handleExportFeedbacks('excel')}>
-            <Download className="w-4 h-4 mr-2" />
-            Export Excel
+          <Button variant="dental-outline" size="sm" onClick={() => handleExportFeedbacks('excel')} className="w-full sm:w-auto text-xs sm:text-sm">
+            <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden xs:inline">Export </span>Excel
           </Button>
         </div>
       </div>
 
       {/* Search and Filter Controls */}
       <Card className="border-dental-blue-light">
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        <CardContent className="p-3 sm:p-4 md:p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
             <div className="sm:col-span-2 lg:col-span-1">
-              <Label htmlFor="search" className="text-dental-blue font-medium mb-2 block text-sm">
+              <Label htmlFor="search" className="text-dental-blue font-medium mb-1.5 block text-xs sm:text-sm">
                 Search
               </Label>
               <div className="relative">
-                <Search className="absolute left-3 top-3 w-4 h-4 text-dental-gray" />
+                <Search className="absolute left-2 sm:left-3 top-2 sm:top-3 w-3 h-3 sm:w-4 sm:h-4 text-dental-gray" />
                 <Input
                   id="search"
                   placeholder="Search..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 border-dental-blue-light focus:border-dental-blue text-sm"
+                  className="pl-8 sm:pl-10 border-dental-blue-light focus:border-dental-blue text-xs sm:text-sm h-8 sm:h-10"
                 />
               </div>
             </div>
             
             <div>
-              <Label htmlFor="filterCategory" className="text-dental-blue font-medium mb-2 block text-sm">
+              <Label htmlFor="filterCategory" className="text-dental-blue font-medium mb-1.5 block text-xs sm:text-sm">
                 Category
               </Label>
               <select
                 id="filterCategory"
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="w-full p-2 text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-white"
+                className="w-full p-1.5 sm:p-2 text-xs sm:text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-background h-8 sm:h-10"
               >
                 <option value="all">All Types</option>
                 <option value="general">General Feedback</option>
@@ -192,14 +192,14 @@ const FeedbackManagement = () => {
             </div>
 
             <div>
-              <Label htmlFor="filterRating" className="text-dental-blue font-medium mb-2 block text-sm">
+              <Label htmlFor="filterRating" className="text-dental-blue font-medium mb-1.5 block text-xs sm:text-sm">
                 Rating
               </Label>
               <select
                 id="filterRating"
                 value={filterRating}
                 onChange={(e) => setFilterRating(e.target.value)}
-                className="w-full p-2 text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-white"
+                className="w-full p-1.5 sm:p-2 text-xs sm:text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-background h-8 sm:h-10"
               >
                 <option value="all">All Ratings</option>
                 <option value="5">5 Stars</option>
@@ -211,14 +211,14 @@ const FeedbackManagement = () => {
             </div>
 
             <div>
-              <Label htmlFor="filterStatus" className="text-dental-blue font-medium mb-2 block text-sm">
+              <Label htmlFor="filterStatus" className="text-dental-blue font-medium mb-1.5 block text-xs sm:text-sm">
                 Status
               </Label>
               <select
                 id="filterStatus"
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="w-full p-2 text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-white"
+                className="w-full p-1.5 sm:p-2 text-xs sm:text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-background h-8 sm:h-10"
               >
                 <option value="all">All Status</option>
                 <option value="new">New</option>
@@ -230,39 +230,39 @@ const FeedbackManagement = () => {
       </Card>
 
       {/* Feedback Statistics */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
         <Card className="border-dental-blue-light">
-          <CardContent className="p-4">
+          <CardContent className="p-2 sm:p-3 md:p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-dental-blue">{actualFeedback.length}</p>
-              <p className="text-dental-gray">Total Reviews</p>
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-dental-blue">{actualFeedback.length}</p>
+              <p className="text-dental-gray text-xs sm:text-sm">Total Reviews</p>
             </div>
           </CardContent>
         </Card>
         <Card className="border-dental-blue-light">
-          <CardContent className="p-4">
+          <CardContent className="p-2 sm:p-3 md:p-4">
             <div className="text-center">
               <div className="flex items-center justify-center gap-1">
-                <Star className="w-4 h-4 text-warning fill-current" />
-                <p className="text-2xl font-bold text-warning">{averageRating}</p>
+                <Star className="w-3 h-3 sm:w-4 sm:h-4 text-warning fill-current" />
+                <p className="text-lg sm:text-xl md:text-2xl font-bold text-warning">{averageRating}</p>
               </div>
-              <p className="text-dental-gray">Average Rating</p>
+              <p className="text-dental-gray text-xs sm:text-sm">Avg Rating</p>
             </div>
           </CardContent>
         </Card>
         <Card className="border-dental-blue-light">
-          <CardContent className="p-4">
+          <CardContent className="p-2 sm:p-3 md:p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-dental-blue">{actualFeedback.filter(f => f.status === 'new').length}</p>
-              <p className="text-dental-gray">New Reviews</p>
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-dental-blue">{actualFeedback.filter(f => f.status === 'new').length}</p>
+              <p className="text-dental-gray text-xs sm:text-sm">New</p>
             </div>
           </CardContent>
         </Card>
         <Card className="border-dental-blue-light">
-          <CardContent className="p-4">
+          <CardContent className="p-2 sm:p-3 md:p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-success">{filteredFeedbacks.length}</p>
-              <p className="text-dental-gray">Filtered Results</p>
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-success">{filteredFeedbacks.length}</p>
+              <p className="text-dental-gray text-xs sm:text-sm">Filtered</p>
             </div>
           </CardContent>
         </Card>
@@ -270,87 +270,95 @@ const FeedbackManagement = () => {
 
       {/* Feedback Table */}
       <Card className="border-dental-blue-light">
-        <CardHeader>
-          <CardTitle className="text-dental-blue">Patient Feedback & Reviews</CardTitle>
-          <CardDescription>All patient feedback and service reviews with real-time updates</CardDescription>
+        <CardHeader className="p-3 sm:p-4 md:p-6">
+          <CardTitle className="text-dental-blue text-base sm:text-lg md:text-xl">Patient Feedback & Reviews</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">All patient feedback and service reviews with real-time updates</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-2 sm:p-4 md:p-6">
           {filteredFeedbacks.length > 0 ? (
-            <div className="rounded-lg border border-dental-blue-light overflow-x-auto">
-              <Table>
-                <TableHeader className="bg-dental-blue-light">
-                  <TableRow>
-                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Patient</TableHead>
-                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Rating</TableHead>
-                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Message</TableHead>
-                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Date</TableHead>
-                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Status</TableHead>
-                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredFeedbacks.map((feedbackItem) => (
-                    <TableRow key={feedbackItem.id} className="hover:bg-dental-blue-light/50">
-                      <TableCell>
-                        <div className="space-y-1">
-                          <div className="flex items-center space-x-2">
-                            <User className="w-4 h-4 text-dental-blue" />
-                            <span className="font-medium text-foreground">{feedbackItem.patient_name}</span>
-                          </div>
-                          <div className="text-sm text-dental-gray">{feedbackItem.patient_email}</div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-1">
-                          <span className={`font-bold ${getRatingColor(feedbackItem.rating)}`}>{feedbackItem.rating}</span>
-                          <Star className={`w-4 h-4 ${getRatingColor(feedbackItem.rating)} fill-current`} />
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="max-w-xs">
-                          <p className="text-sm text-dental-gray truncate">{feedbackItem.message}</p>
-                          <Badge variant="outline" className="mt-1 text-xs">{feedbackItem.category}</Badge>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-sm text-dental-gray">{formatDate(feedbackItem.created_at)}</div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className={`${getStatusColor(feedbackItem.status)} text-xs`}>
-                          {feedbackItem.status.charAt(0).toUpperCase() + feedbackItem.status.slice(1)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex space-x-2">
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            className="text-dental-blue hover:bg-dental-blue-light"
-                            onClick={() => handleViewFeedback(feedbackItem.id)}
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          {feedbackItem.status === 'new' && (
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
-                              className="text-success hover:bg-success/10"
-                              onClick={() => handleMarkAsReviewed(feedbackItem.id)}
-                            >
-                              <MessageSquare className="w-4 h-4" />
-                            </Button>
-                          )}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <div className="rounded-lg border border-dental-blue-light overflow-hidden">
+              <div className="overflow-x-auto -mx-2 sm:mx-0">
+                <div className="inline-block min-w-full align-middle">
+                  <Table>
+                    <TableHeader className="bg-dental-blue-light hidden sm:table-header-group">
+                      <TableRow>
+                        <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap px-2 sm:px-4">Patient</TableHead>
+                        <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap px-2 sm:px-4">Rating</TableHead>
+                        <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap px-2 sm:px-4 hidden md:table-cell">Message</TableHead>
+                        <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap px-2 sm:px-4 hidden lg:table-cell">Date</TableHead>
+                        <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap px-2 sm:px-4">Status</TableHead>
+                        <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap px-2 sm:px-4">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredFeedbacks.map((feedbackItem) => (
+                        <TableRow key={feedbackItem.id} className="hover:bg-dental-blue-light/50 border-b sm:table-row flex flex-col sm:border-b-0 py-3 sm:py-0">
+                          <TableCell className="px-2 sm:px-4 py-2 sm:py-4">
+                            <div className="space-y-0.5 sm:space-y-1">
+                              <div className="flex items-center space-x-1.5 sm:space-x-2">
+                                <User className="w-3 h-3 sm:w-4 sm:h-4 text-dental-blue flex-shrink-0" />
+                                <span className="font-medium text-foreground text-xs sm:text-sm break-words">{feedbackItem.patient_name}</span>
+                              </div>
+                              <div className="text-xs text-dental-gray break-all">{feedbackItem.patient_email}</div>
+                              <div className="sm:hidden mt-1">
+                                <p className="text-xs text-dental-gray line-clamp-2">{feedbackItem.message}</p>
+                                <Badge variant="outline" className="mt-1 text-[10px]">{feedbackItem.category}</Badge>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="px-2 sm:px-4 py-2 sm:py-4">
+                            <div className="flex items-center space-x-1">
+                              <span className={`font-bold text-sm sm:text-base ${getRatingColor(feedbackItem.rating)}`}>{feedbackItem.rating}</span>
+                              <Star className={`w-3 h-3 sm:w-4 sm:h-4 ${getRatingColor(feedbackItem.rating)} fill-current`} />
+                            </div>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-4">
+                            <div className="max-w-xs">
+                              <p className="text-xs sm:text-sm text-dental-gray truncate">{feedbackItem.message}</p>
+                              <Badge variant="outline" className="mt-1 text-[10px] sm:text-xs">{feedbackItem.category}</Badge>
+                            </div>
+                          </TableCell>
+                          <TableCell className="hidden lg:table-cell px-2 sm:px-4 py-2 sm:py-4">
+                            <div className="text-xs sm:text-sm text-dental-gray whitespace-nowrap">{formatDate(feedbackItem.created_at)}</div>
+                          </TableCell>
+                          <TableCell className="px-2 sm:px-4 py-2 sm:py-4">
+                            <Badge className={`${getStatusColor(feedbackItem.status)} text-[10px] sm:text-xs`}>
+                              {feedbackItem.status.charAt(0).toUpperCase() + feedbackItem.status.slice(1)}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="px-2 sm:px-4 py-2 sm:py-4">
+                            <div className="flex space-x-1 sm:space-x-2">
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="text-dental-blue hover:bg-dental-blue-light h-7 w-7 sm:h-8 sm:w-8 p-0"
+                                onClick={() => handleViewFeedback(feedbackItem.id)}
+                              >
+                                <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
+                              </Button>
+                              {feedbackItem.status === 'new' && (
+                                <Button 
+                                  variant="ghost" 
+                                  size="sm" 
+                                  className="text-success hover:bg-success/10 h-7 w-7 sm:h-8 sm:w-8 p-0"
+                                  onClick={() => handleMarkAsReviewed(feedbackItem.id)}
+                                >
+                                  <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4" />
+                                </Button>
+                              )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
             </div>
           ) : (
-            <div className="text-center py-8">
-              <MessageSquare className="w-12 h-12 text-dental-gray mx-auto mb-4" />
-              <p className="text-dental-gray">No feedback found matching your filters.</p>
+            <div className="text-center py-6 sm:py-8">
+              <MessageSquare className="w-10 h-10 sm:w-12 sm:h-12 text-dental-gray mx-auto mb-3 sm:mb-4" />
+              <p className="text-dental-gray text-xs sm:text-sm">No feedback found matching your filters.</p>
             </div>
           )}
         </CardContent>

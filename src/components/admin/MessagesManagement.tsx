@@ -125,54 +125,54 @@ const MessagesManagement = () => {
   }
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-3 md:space-y-6 px-2 sm:px-0">
       {/* Header */}
-      <div className="flex flex-col space-y-3 md:space-y-4">
+      <div className="flex flex-col space-y-2 md:space-y-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-foreground">Contact Messages</h2>
-          <p className="text-dental-gray text-sm md:text-base">View and manage all contact form submissions in real-time</p>
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground">Contact Messages</h2>
+          <p className="text-dental-gray text-xs sm:text-sm md:text-base">View and manage all contact form submissions in real-time</p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <Button variant="dental-outline" size="sm" onClick={() => handleExportMessages('csv')}>
-            <Download className="w-4 h-4 mr-2" />
-            Export CSV
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <Button variant="dental-outline" size="sm" onClick={() => handleExportMessages('csv')} className="w-full sm:w-auto text-xs sm:text-sm">
+            <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden xs:inline">Export </span>CSV
           </Button>
-          <Button variant="dental-outline" size="sm" onClick={() => handleExportMessages('excel')}>
-            <Download className="w-4 h-4 mr-2" />
-            Export Excel
+          <Button variant="dental-outline" size="sm" onClick={() => handleExportMessages('excel')} className="w-full sm:w-auto text-xs sm:text-sm">
+            <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden xs:inline">Export </span>Excel
           </Button>
         </div>
       </div>
 
       {/* Search and Filter Controls */}
       <Card className="border-dental-blue-light">
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+        <CardContent className="p-3 sm:p-4 md:p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
             <div>
-              <Label htmlFor="search" className="text-dental-blue font-medium mb-2 block text-sm">
+              <Label htmlFor="search" className="text-dental-blue font-medium mb-1.5 block text-xs sm:text-sm">
                 Search
               </Label>
               <div className="relative">
-                <Search className="absolute left-3 top-3 w-4 h-4 text-dental-gray" />
+                <Search className="absolute left-2 sm:left-3 top-2 sm:top-3 w-3 h-3 sm:w-4 sm:h-4 text-dental-gray" />
                 <Input
                   id="search"
                   placeholder="Search..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 border-dental-blue-light focus:border-dental-blue text-sm"
+                  className="pl-8 sm:pl-10 border-dental-blue-light focus:border-dental-blue text-xs sm:text-sm h-8 sm:h-10"
                 />
               </div>
             </div>
 
             <div>
-              <Label htmlFor="filterStatus" className="text-dental-blue font-medium mb-2 block text-sm">
+              <Label htmlFor="filterStatus" className="text-dental-blue font-medium mb-1.5 block text-xs sm:text-sm">
                 Status
               </Label>
               <select
                 id="filterStatus"
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="w-full p-2 text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-background"
+                className="w-full p-1.5 sm:p-2 text-xs sm:text-sm border border-dental-blue-light rounded-md focus:border-dental-blue focus:outline-none bg-background h-8 sm:h-10"
               >
                 <option value="all">All Status</option>
                 <option value="new">New</option>
@@ -184,28 +184,28 @@ const MessagesManagement = () => {
       </Card>
 
       {/* Message Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4">
         <Card className="border-dental-blue-light">
-          <CardContent className="p-4">
+          <CardContent className="p-2 sm:p-3 md:p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-dental-blue">{contactMessages.length}</p>
-              <p className="text-dental-gray">Total Messages</p>
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-dental-blue">{contactMessages.length}</p>
+              <p className="text-dental-gray text-xs sm:text-sm">Total</p>
             </div>
           </CardContent>
         </Card>
         <Card className="border-dental-blue-light">
-          <CardContent className="p-4">
+          <CardContent className="p-2 sm:p-3 md:p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-warning">{contactMessages.filter(m => m.status === 'new').length}</p>
-              <p className="text-dental-gray">New Messages</p>
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-warning">{contactMessages.filter(m => m.status === 'new').length}</p>
+              <p className="text-dental-gray text-xs sm:text-sm">New</p>
             </div>
           </CardContent>
         </Card>
         <Card className="border-dental-blue-light">
-          <CardContent className="p-4">
+          <CardContent className="p-2 sm:p-3 md:p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-success">{filteredMessages.length}</p>
-              <p className="text-dental-gray">Filtered Results</p>
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-success">{filteredMessages.length}</p>
+              <p className="text-dental-gray text-xs sm:text-sm">Filtered</p>
             </div>
           </CardContent>
         </Card>
@@ -213,82 +213,89 @@ const MessagesManagement = () => {
 
       {/* Messages Table */}
       <Card className="border-dental-blue-light">
-        <CardHeader>
-          <CardTitle className="text-dental-blue">All Contact Messages</CardTitle>
-          <CardDescription>Website contact form submissions with real-time updates</CardDescription>
+        <CardHeader className="p-3 sm:p-4 md:p-6">
+          <CardTitle className="text-dental-blue text-base sm:text-lg md:text-xl">All Contact Messages</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">Website contact form submissions with real-time updates</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-2 sm:p-4 md:p-6">
           {filteredMessages.length > 0 ? (
-            <div className="rounded-lg border border-dental-blue-light overflow-x-auto">
-              <Table>
-                <TableHeader className="bg-dental-blue-light">
-                  <TableRow>
-                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Contact Info</TableHead>
-                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Message</TableHead>
-                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Date</TableHead>
-                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Status</TableHead>
-                    <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredMessages.map((message) => (
-                    <TableRow key={message.id} className="hover:bg-dental-blue-light/50">
-                      <TableCell>
-                        <div className="space-y-1">
-                          <div className="flex items-center space-x-2">
-                            <User className="w-4 h-4 text-dental-blue" />
-                            <span className="font-medium text-foreground">{message.patient_name}</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Mail className="w-3 h-3 text-dental-gray" />
-                            <span className="text-sm text-dental-gray">{message.patient_email}</span>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="max-w-md">
-                          <p className="text-sm text-dental-gray line-clamp-2">{message.message}</p>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="text-sm text-dental-gray whitespace-nowrap">{formatDate(message.created_at)}</div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className={`${getStatusColor(message.status)} text-xs`}>
-                          {message.status.charAt(0).toUpperCase() + message.status.slice(1)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex space-x-2">
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            className="text-dental-blue hover:bg-dental-blue-light"
-                            onClick={() => handleViewMessage(message.id)}
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          {message.status === 'new' && (
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
-                              className="text-success hover:bg-success/10"
-                              onClick={() => handleMarkAsReviewed(message.id)}
-                            >
-                              <CheckCircle className="w-4 h-4" />
-                            </Button>
-                          )}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <div className="rounded-lg border border-dental-blue-light overflow-hidden">
+              <div className="overflow-x-auto -mx-2 sm:mx-0">
+                <div className="inline-block min-w-full align-middle">
+                  <Table>
+                    <TableHeader className="bg-dental-blue-light hidden sm:table-header-group">
+                      <TableRow>
+                        <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap px-2 sm:px-4">Contact Info</TableHead>
+                        <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap px-2 sm:px-4 hidden md:table-cell">Message</TableHead>
+                        <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap px-2 sm:px-4 hidden lg:table-cell">Date</TableHead>
+                        <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap px-2 sm:px-4">Status</TableHead>
+                        <TableHead className="font-semibold text-dental-blue text-xs md:text-sm whitespace-nowrap px-2 sm:px-4">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredMessages.map((message) => (
+                        <TableRow key={message.id} className="hover:bg-dental-blue-light/50 border-b sm:table-row flex flex-col sm:border-b-0 py-3 sm:py-0">
+                          <TableCell className="px-2 sm:px-4 py-2 sm:py-4">
+                            <div className="space-y-0.5 sm:space-y-1">
+                              <div className="flex items-center space-x-1.5 sm:space-x-2">
+                                <User className="w-3 h-3 sm:w-4 sm:h-4 text-dental-blue flex-shrink-0" />
+                                <span className="font-medium text-foreground text-xs sm:text-sm break-words">{message.patient_name}</span>
+                              </div>
+                              <div className="flex items-center space-x-1.5 sm:space-x-2">
+                                <Mail className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-dental-gray flex-shrink-0" />
+                                <span className="text-xs text-dental-gray break-all">{message.patient_email}</span>
+                              </div>
+                              <div className="sm:hidden mt-1">
+                                <p className="text-xs text-dental-gray line-clamp-2">{message.message}</p>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-4">
+                            <div className="max-w-xs lg:max-w-md">
+                              <p className="text-xs sm:text-sm text-dental-gray line-clamp-2">{message.message}</p>
+                            </div>
+                          </TableCell>
+                          <TableCell className="hidden lg:table-cell px-2 sm:px-4 py-2 sm:py-4">
+                            <div className="text-xs sm:text-sm text-dental-gray whitespace-nowrap">{formatDate(message.created_at)}</div>
+                          </TableCell>
+                          <TableCell className="px-2 sm:px-4 py-2 sm:py-4">
+                            <Badge className={`${getStatusColor(message.status)} text-[10px] sm:text-xs`}>
+                              {message.status.charAt(0).toUpperCase() + message.status.slice(1)}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="px-2 sm:px-4 py-2 sm:py-4">
+                            <div className="flex space-x-1 sm:space-x-2">
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="text-dental-blue hover:bg-dental-blue-light h-7 w-7 sm:h-8 sm:w-8 p-0"
+                                onClick={() => handleViewMessage(message.id)}
+                              >
+                                <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
+                              </Button>
+                              {message.status === 'new' && (
+                                <Button 
+                                  variant="ghost" 
+                                  size="sm" 
+                                  className="text-success hover:bg-success/10 h-7 w-7 sm:h-8 sm:w-8 p-0"
+                                  onClick={() => handleMarkAsReviewed(message.id)}
+                                >
+                                  <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4" />
+                                </Button>
+                              )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
             </div>
           ) : (
-            <div className="text-center py-8">
-              <Mail className="w-12 h-12 text-dental-gray mx-auto mb-4" />
-              <p className="text-dental-gray">No contact messages found matching your filters.</p>
+            <div className="text-center py-6 sm:py-8">
+              <Mail className="w-10 h-10 sm:w-12 sm:h-12 text-dental-gray mx-auto mb-3 sm:mb-4" />
+              <p className="text-dental-gray text-xs sm:text-sm">No contact messages found matching your filters.</p>
             </div>
           )}
         </CardContent>
