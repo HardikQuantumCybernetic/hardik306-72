@@ -18,12 +18,19 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-    dedupe: [
-      "react", 
-      "react-dom",
-      "@radix-ui/react-tooltip",
-      "@tanstack/react-query",
-      "react-router-dom"
-    ],
   },
+  optimizeDeps: {
+    exclude: ['@clerk/clerk-react'],
+    include: ['react', 'react-dom', '@tanstack/react-query', 'react-router-dom']
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['@radix-ui/react-dialog', '@radix-ui/react-tooltip', '@radix-ui/react-toast']
+        }
+      }
+    }
+  }
 }));

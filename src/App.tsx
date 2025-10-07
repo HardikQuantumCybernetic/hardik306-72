@@ -11,7 +11,6 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 import InstallPrompt from "@/components/common/InstallPrompt";
 import UpdatePrompt from "@/components/common/UpdatePrompt";
 import { SmartDentalChatbot } from "@/components/SmartDentalChatbot";
-import PerformanceProvider from "@/components/optimized/PerformanceProvider";
 import CriticalResourceLoader from "@/components/optimized/CriticalResourceLoader";
 
 // Lazy load pages for better performance
@@ -50,34 +49,29 @@ const App = () => (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <PerformanceProvider>
-            <CriticalResourceLoader />
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Suspense fallback={<PageLoadingFallback />}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/services" element={<Services />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/booking" element={<Booking />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/admin" element={<Admin />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<SignUp />} />
-                  <Route path="/patient-dashboard" element={<PatientDashboardPage />} />
-                  <Route path="/feedback" element={<Feedback />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-              <SmartDentalChatbot />
-              
-              {/* PWA Components */}
-              <InstallPrompt />
-              <UpdatePrompt />
-            </BrowserRouter>
-          </PerformanceProvider>
+          <CriticalResourceLoader />
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Suspense fallback={<PageLoadingFallback />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/booking" element={<Booking />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/patient-dashboard" element={<PatientDashboardPage />} />
+                <Route path="/feedback" element={<Feedback />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+            <SmartDentalChatbot />
+            <InstallPrompt />
+            <UpdatePrompt />
+          </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>
     </HelmetProvider>
