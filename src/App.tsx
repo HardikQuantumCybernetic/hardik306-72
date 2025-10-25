@@ -6,15 +6,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { HelmetProvider } from 'react-helmet-async';
-import { ClerkProvider } from "@clerk/clerk-react";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import InstallPrompt from "@/components/common/InstallPrompt";
 import UpdatePrompt from "@/components/common/UpdatePrompt";
 import { SmartDentalChatbot } from "@/components/SmartDentalChatbot";
 import CriticalResourceLoader from "@/components/optimized/CriticalResourceLoader";
-
-const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "";
 
 // Lazy load pages for better performance
 const Home = lazy(() => import("./pages/Home"));
@@ -49,14 +46,13 @@ const PageLoadingFallback = () => (
 
 const App = () => (
   <ErrorBoundary>
-    <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
-      <HelmetProvider>
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <CriticalResourceLoader />
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <CriticalResourceLoader />
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
             <Suspense fallback={<PageLoadingFallback />}>
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -79,7 +75,6 @@ const App = () => (
         </TooltipProvider>
       </QueryClientProvider>
     </HelmetProvider>
-    </ClerkProvider>
   </ErrorBoundary>
 );
 
