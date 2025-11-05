@@ -22,7 +22,8 @@ import {
   Loader2,
   Download,
   DollarSign,
-  ClipboardList
+  ClipboardList,
+  MessageCircle
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { usePatients } from "@/hooks/useSupabase";
@@ -154,6 +155,37 @@ const PatientManagementSupabase = () => {
         variant: "destructive"
       });
     }
+  };
+
+  const handleSendWhatsApp = (patient: Patient) => {
+    // Format patient data for WhatsApp message
+    const message = `
+*Patient Information*
+
+👤 *Name:* ${patient.name}
+📧 *Email:* ${patient.email}
+📞 *Phone:* ${patient.phone}
+🎂 *Date of Birth:* ${patient.date_of_birth}
+${patient.patient_id ? `🆔 *Patient ID:* ${patient.patient_id}` : ''}
+${patient.address ? `📍 *Address:* ${patient.address}` : ''}
+${patient.insurance_info ? `🛡️ *Insurance:* ${patient.insurance_info}` : ''}
+${patient.medical_history ? `📋 *Medical History:* ${patient.medical_history}` : ''}
+✅ *Status:* ${patient.status}
+    `.trim();
+
+    // Remove country code formatting and special characters from phone
+    const cleanPhone = patient.phone.replace(/[^\d]/g, '');
+    
+    // Create WhatsApp URL with pre-filled message
+    const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+    
+    // Open WhatsApp in new tab
+    window.open(whatsappUrl, '_blank');
+    
+    toast({
+      title: "Opening WhatsApp",
+      description: `Sending message to ${patient.name}`,
+    });
   };
 
   if (loading) {
@@ -411,6 +443,15 @@ const PatientManagementSupabase = () => {
                             title="Edit Patient"
                           >
                             <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleSendWhatsApp(patient)}
+                            className="text-success hover:bg-success/10"
+                            title="Send WhatsApp"
+                          >
+                            <MessageCircle className="w-4 h-4" />
                           </Button>
                           <EnhancedPatientPDFGenerator patient={patient} />
                           <Button
