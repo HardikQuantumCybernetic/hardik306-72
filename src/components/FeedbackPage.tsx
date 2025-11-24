@@ -6,7 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
-import { Star, Phone, Mail, CheckCircle, MessageSquare, Users, Heart } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Star, Phone, Mail, CheckCircle, MessageSquare, Users, Heart, AlertCircle, ThumbsUp } from 'lucide-react';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -101,6 +102,7 @@ const StarRating: React.FC<{
 };
 
 const FeedbackPage: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<'general' | 'complain' | 'service'>('general');
   const [feedback, setFeedback] = useState<FeedbackData>({
     overallRating: '',
     staffFriendliness: '',
@@ -171,7 +173,7 @@ const FeedbackPage: React.FC = () => {
           patient_email: feedback.email,
           rating: avgRating,
           message: message || 'No additional comments provided',
-          category: 'general',
+          category: activeTab,
           status: 'new'
         });
 
@@ -245,6 +247,45 @@ const FeedbackPage: React.FC = () => {
             </p>
           </div>
 
+          {/* Feedback Tabs */}
+          <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="mb-12">
+            <TabsList className="grid w-full grid-cols-3 mb-8">
+              <TabsTrigger value="general" className="flex items-center gap-2">
+                <ThumbsUp className="w-4 h-4" />
+                <span>General Review</span>
+              </TabsTrigger>
+              <TabsTrigger value="complain" className="flex items-center gap-2">
+                <AlertCircle className="w-4 h-4" />
+                <span>Complain</span>
+              </TabsTrigger>
+              <TabsTrigger value="service" className="flex items-center gap-2">
+                <Star className="w-4 h-4" />
+                <span>Service Review</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="general" className="space-y-8">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-foreground mb-2">General Review</h2>
+                <p className="text-dental-gray">Share your overall experience with our dental practice</p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="complain" className="space-y-8">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-foreground mb-2">Submit a Complaint</h2>
+                <p className="text-dental-gray">Help us address any concerns or issues you experienced</p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="service" className="space-y-8">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-foreground mb-2">Service Review</h2>
+                <p className="text-dental-gray">Rate the specific services you received</p>
+              </div>
+            </TabsContent>
+          </Tabs>
+
           {/* Recent Reviews Section */}
           <div className="mb-12">
             <div className="flex items-center justify-center space-x-2 mb-6">
@@ -289,11 +330,19 @@ const FeedbackPage: React.FC = () => {
           <Card className="shadow-dental-card border-dental-blue-light animate-scale-in">
             <CardHeader className="text-center bg-gradient-to-r from-dental-blue to-dental-mint text-white rounded-t-lg">
               <CardTitle className="text-2xl font-bold font-inter flex items-center justify-center space-x-2">
-                <MessageSquare className="w-6 h-6" />
-                <span>Share Your Experience</span>
+                {activeTab === 'general' && <ThumbsUp className="w-6 h-6" />}
+                {activeTab === 'complain' && <AlertCircle className="w-6 h-6" />}
+                {activeTab === 'service' && <Star className="w-6 h-6" />}
+                <span>
+                  {activeTab === 'general' && 'Share Your Experience'}
+                  {activeTab === 'complain' && 'Submit Your Complaint'}
+                  {activeTab === 'service' && 'Rate Our Services'}
+                </span>
               </CardTitle>
               <p className="text-dental-blue-light">
-                Please take a moment to share your thoughts about your recent visit
+                {activeTab === 'general' && 'Please take a moment to share your thoughts about your recent visit'}
+                {activeTab === 'complain' && 'We take all complaints seriously and will address your concerns promptly'}
+                {activeTab === 'service' && 'Your feedback helps us improve the quality of our dental services'}
               </p>
             </CardHeader>
             
