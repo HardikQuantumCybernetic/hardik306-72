@@ -18,11 +18,13 @@ import {
   Download,
   Eye,
   User,
-  CheckCircle
+  CheckCircle,
+  Trash2
 } from "lucide-react";
 import { downloadCSV, downloadExcel } from "@/utils/downloadUtils";
 import { useToast } from "@/hooks/use-toast";
 import { useFeedback } from "@/hooks/useSupabaseExtended";
+import { supabase } from "@/integrations/supabase/client";
 
 const MessagesManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -92,6 +94,30 @@ const MessagesManagement = () => {
         description: "Failed to update message status",
         variant: "destructive"
       });
+    }
+  };
+
+  const handleDeleteMessage = async (messageId: string) => {
+    if (window.confirm("Are you sure you want to delete this message? This action cannot be undone.")) {
+      try {
+        const { error } = await supabase
+          .from('feedback')
+          .delete()
+          .eq('id', messageId);
+        
+        if (error) throw error;
+        
+        toast({
+          title: "Success",
+          description: "Message deleted successfully",
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to delete message",
+          variant: "destructive"
+        });
+      }
     }
   };
 
@@ -283,6 +309,14 @@ const MessagesManagement = () => {
                                   <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4" />
                                 </Button>
                               )}
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="text-destructive hover:bg-destructive/10 h-7 w-7 sm:h-8 sm:w-8 p-0"
+                                onClick={() => handleDeleteMessage(message.id)}
+                              >
+                                <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                              </Button>
                             </div>
                           </TableCell>
                         </TableRow>

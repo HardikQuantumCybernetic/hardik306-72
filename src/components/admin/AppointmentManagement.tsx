@@ -4,14 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
-import { Calendar, Clock, User, Phone, MapPin, CheckCircle, XCircle, AlertCircle, Loader2 } from "lucide-react";
+import { Calendar, Clock, User, Phone, MapPin, CheckCircle, XCircle, AlertCircle, Loader2, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAppointments } from "@/hooks/useSupabase";
 import { useDoctors } from "@/hooks/useSupabaseExtended";
 import AppointmentScheduling from "./AppointmentScheduling";
 const AppointmentManagement = () => {
   const { toast } = useToast();
-  const { appointments, loading, updateAppointment } = useAppointments();
+  const { appointments, loading, updateAppointment, deleteAppointment } = useAppointments();
   const { doctors } = useDoctors();
   const [open, setOpen] = useState(false);
   const handleStatusChange = async (appointmentId: string, newStatus: "scheduled" | "confirmed" | "completed" | "cancelled" | "no-show") => {
@@ -27,6 +27,24 @@ const AppointmentManagement = () => {
         description: "Failed to update appointment status",
         variant: "destructive"
       });
+    }
+  };
+
+  const handleDelete = async (appointmentId: string) => {
+    if (window.confirm("Are you sure you want to delete this appointment? This action cannot be undone.")) {
+      try {
+        await deleteAppointment(appointmentId);
+        toast({
+          title: "Success",
+          description: "Appointment deleted successfully",
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to delete appointment",
+          variant: "destructive"
+        });
+      }
     }
   };
 
@@ -187,6 +205,14 @@ const AppointmentManagement = () => {
                       Reschedule
                     </Button>
                   )}
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => handleDelete(appointment.id)}
+                  >
+                    <Trash2 className="w-4 h-4 mr-1" />
+                    Delete
+                  </Button>
                 </div>
               </div>
             </CardContent>

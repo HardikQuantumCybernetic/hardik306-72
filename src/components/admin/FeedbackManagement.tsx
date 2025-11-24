@@ -18,11 +18,13 @@ import {
   Search,
   Download,
   Eye,
-  User
+  User,
+  Trash2
 } from "lucide-react";
 import { downloadCSV, downloadExcel } from "@/utils/downloadUtils";
 import { useToast } from "@/hooks/use-toast";
 import { useFeedback } from "@/hooks/useSupabaseExtended";
+import { supabase } from "@/integrations/supabase/client";
 
 const FeedbackManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -100,6 +102,30 @@ const FeedbackManagement = () => {
       await updateFeedback(feedbackId, { status: 'reviewed' });
     } catch (error) {
       // Error handled in hook
+    }
+  };
+
+  const handleDeleteFeedback = async (feedbackId: string) => {
+    if (window.confirm("Are you sure you want to delete this feedback? This action cannot be undone.")) {
+      try {
+        const { error } = await supabase
+          .from('feedback')
+          .delete()
+          .eq('id', feedbackId);
+        
+        if (error) throw error;
+        
+        toast({
+          title: "Success",
+          description: "Feedback deleted successfully",
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to delete feedback",
+          variant: "destructive"
+        });
+      }
     }
   };
 
@@ -346,6 +372,14 @@ const FeedbackManagement = () => {
                                   <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4" />
                                 </Button>
                               )}
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="text-destructive hover:bg-destructive/10 h-7 w-7 sm:h-8 sm:w-8 p-0"
+                                onClick={() => handleDeleteFeedback(feedbackItem.id)}
+                              >
+                                <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                              </Button>
                             </div>
                           </TableCell>
                         </TableRow>
