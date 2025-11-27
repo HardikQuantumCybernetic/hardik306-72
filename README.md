@@ -557,7 +557,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- **Your Name** - *Initial work* - [YourGitHub](https://github.com/yourusername)
+- **Your Name** - *Initial work* - [YourGitHub](https://github.com/HardikQuantumCybernetic)
 
 ## 🙏 Acknowledgments
 
@@ -575,8 +575,8 @@ For support, email your-email@example.com or open an issue in the repository.
 
 - [Live Demo](https://your-deployed-app.com)
 - [Documentation](https://docs.your-app.com)
-- [Bug Reports](https://github.com/yourusername/hardik-dental/issues)
-- [Feature Requests](https://github.com/yourusername/hardik-dental/issues)
+- [Bug Reports](https://github.com/HardikQuantumCybernetic/hardik-dental/issues)
+- [Feature Requests](https://github.com/HardikQuantumCybernetic/hardik-dental/issues)
 
 ---
 
