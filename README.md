@@ -557,7 +557,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- **Your Name** - *Initial work* - [YourGitHub](https://github.com/HardikQuantumCybernetic)
+- **Your Name** - *Initial work* - [Hardik Dattatray Jadhav ](https://github.com/HardikQuantumCybernetic)
 
 ## 🙏 Acknowledgments
 
@@ -569,7 +569,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Support
 
-For support, email your-email@example.com or open an issue in the repository.
+For support, email hardikjadhav307@gmail.com or open an issue in the repository.
 
 ## 🔗 Links
 
