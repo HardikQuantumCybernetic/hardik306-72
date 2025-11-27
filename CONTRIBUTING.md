@@ -4,7 +4,7 @@ First off, thank you for considering contributing to Hardik Dental! It's people 
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to [your-email@example.com].
+This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code. Please report unacceptable behavior to hardikjadhav307@gmail.com.
 
 ## How Can I Contribute?
 
