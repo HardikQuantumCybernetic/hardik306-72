@@ -97,7 +97,7 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/hardik-dental.git
+git clone https://github.com/HardikQuantumCybernetic/hardik-dental.git
 cd hardik-dental
 ```
 
