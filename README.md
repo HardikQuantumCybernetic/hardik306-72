@@ -391,16 +391,72 @@ The project includes RLS policies for data security. Ensure they're enabled:
 2. Verify all tables have RLS enabled
 3. Review and adjust policies as needed
 
-### User Roles
+### Setting Up Admin Access
 
-To add admin access:
+The admin panel uses Supabase authentication with role-based access control. Follow these steps to create an admin account:
 
-1. Go to Supabase Dashboard → SQL Editor
-2. Run:
+#### Step 1: Create an Admin User in Supabase
+
+1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
+2. Navigate to **Authentication** → **Users**
+3. Click **Add User** (or **Invite User**)
+4. Fill in the admin credentials:
+   - **Email**: Enter the admin email address (e.g., `admin@yourdomain.com`)
+   - **Password**: Enter a strong password
+   - **Auto Confirm User**: Toggle ON (optional, but recommended for testing)
+5. Click **Create User** or **Send Invitation**
+6. **Copy the User ID** (UUID) - you'll need this in the next step
+
+#### Step 2: Assign Admin Role
+
+1. Go to **SQL Editor** in your Supabase Dashboard
+2. Run the following SQL query to grant admin access:
+
+```sql
+-- Replace 'YOUR_USER_ID_HERE' with the actual user ID copied from Step 1
+INSERT INTO user_roles (user_id, role)
+VALUES ('YOUR_USER_ID_HERE', 'admin');
+```
+
+Example:
 ```sql
 INSERT INTO user_roles (user_id, role)
-VALUES ('user_id_from_clerk', 'admin');
+VALUES ('a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'admin');
 ```
+
+3. Execute the query
+
+#### Step 3: Access the Admin Panel
+
+1. Navigate to your application's admin login page (e.g., `https://yourdomain.com/admin`)
+2. Sign in using the admin credentials you created in Step 1
+3. You should now have full access to the admin dashboard
+
+#### Verifying Admin Access
+
+To verify an admin user exists, run:
+```sql
+SELECT ur.*, au.email 
+FROM user_roles ur
+JOIN auth.users au ON ur.user_id = au.id
+WHERE ur.role = 'admin';
+```
+
+#### Removing Admin Access
+
+To revoke admin access:
+```sql
+DELETE FROM user_roles 
+WHERE user_id = 'USER_ID_HERE' AND role = 'admin';
+```
+
+#### Security Best Practices
+
+- Use strong, unique passwords for admin accounts
+- Limit the number of admin users
+- Regularly audit admin access using the verification query
+- Enable Multi-Factor Authentication (MFA) in Supabase for admin accounts
+- Never share admin credentials
 
 ## 📱 PWA Configuration
 
