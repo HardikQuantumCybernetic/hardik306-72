@@ -573,8 +573,8 @@ For support, email hardikjadhav307@gmail.com or open an issue in the repository.
 
 ## 🔗 Links
 
-- [Live Demo](https://your-deployed-app.com)
-- [Documentation](https://docs.your-app.com)
+- [Live Demo](https://secondlast.vercel.app/)
+- [Documentation]( https://github.com/HardikQuantumCybernetic/hardik-dental)
 - [Bug Reports](https://github.com/HardikQuantumCybernetic/hardik-dental/issues)
 - [Feature Requests](https://github.com/HardikQuantumCybernetic/hardik-dental/issues)
 
